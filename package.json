@@ -2,7 +2,7 @@
   "name": "statsanny",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/alxndr/statsanny",
+  "homepage": "http://alxndr.github.io/statsanny/",
   "devDependencies": {
     "react-scripts": "0.8.5"
   },

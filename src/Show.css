@@ -1,0 +1,36 @@
+.addPerson {
+  cursor: copy;
+}
+
+.players,
+.picks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.players > li {
+  background: lightgray;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.players > li .close {
+  float: right;
+  color: red;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+li > p.player {
+  margin: 0 0 0.5em;
+  color: #555;
+}
+
+.picks > li {
+}
+
+.picks .addPick {
+  cursor: copy;
+}

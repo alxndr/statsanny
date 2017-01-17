@@ -1,7 +1,16 @@
 .app {
-  text-align: center;
 }
 
-.intro {
-  font-size: large;
+.addShow {
+  cursor: copy;
+}
+
+.shows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.shows > li {
+  float: left;
 }

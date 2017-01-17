@@ -1,16 +1,43 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+
+import Show from "./Show";
+
+import "./App.css";
 
 class App extends Component {
+
+  _addShow() {
+    const date = window.prompt("Date? YYYY-MM-DD").trim();
+    this.props.shows.push({
+      date,
+      players: [],
+      picks: {}
+    });
+    this.forceUpdate();
+  }
+
+  constructor(props) {
+    super(props);
+    this.addShow = this._addShow.bind(this);
+  }
+
   render() {
-    return (
-      <div className="app">
-        <p className="intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+    console.log("app rendering...", this.props);
+    return <div className="app">
+      <button className="addShow" onClick={this.addShow}>add a show</button>
+      <ul className="shows">
+      {this.props.shows.map((show) => {
+        return <li key={show.date}>
+          <Show {...show} />
+        </li>;
+      })}
+      </ul>
+    </div>;
   }
 }
+
+App.defaultProps = {
+  shows: []
+};
 
 export default App;

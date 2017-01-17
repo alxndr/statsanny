@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import slugify from "slugify";
-// import uniqid from "uniqid";
+import { slugify } from "./utils";
 
 import Points from "./Points";
+
+import { findAlias } from "./song-helper";
 
 import "./Show.css";
 
@@ -76,9 +77,13 @@ class Show extends Component {
   }
 
   chooseSong(player) {
-    const pick = window.prompt("What's your pick?").trim();
+    let pick = window.prompt("What's your pick?").trim();
     if (!pick.length) {
       return;
+    }
+    const aliasedTo = findAlias(pick);
+    if (aliasedTo) {
+      pick = window.prompt("Did you mean...", aliasedTo);
     }
     // TODO check for already picked...
     this.addPick(player, pick);

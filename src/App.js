@@ -22,28 +22,25 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      shows: [],
+    };
     this.addShow = this._addShow.bind(this);
   }
 
   _addShow() {
     const date = window.prompt("Date? YYYY-MM-DD").trim();
-    this.props.shows.push(showFor(date));
-    this.forceUpdate();
+    this.setState({shows: [showFor(date), ...this.state.shows]});
   }
 
   render() {
-    console.log("app rendering...", this.props);
     return <div className="app">
       <button className="addShow" onClick={this.addShow}>add a show</button>
       <ul className="shows">
-        {this.props.shows.map(showToElement)}
+        {this.state.shows.map(showToElement)}
       </ul>
     </div>;
   }
 }
-
-App.defaultProps = {
-  shows: []
-};
 
 export default App;

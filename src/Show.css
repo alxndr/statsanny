@@ -1,5 +1,25 @@
+@import url("https://fonts.googleapis.com/css?family=VT323");
+
 .addPerson {
   cursor: copy;
+}
+
+.show {
+  margin: 1em 0 0 1em;
+  padding: 1em;
+}
+
+.date {
+  overflow: auto;
+}
+
+.date input {
+  display: block;
+  float: left;
+  background: transparent;
+  border: 0;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 .players,
@@ -10,9 +30,10 @@
 }
 
 .players > li {
-  background: lightgray;
   padding: 0.5em;
   margin: 0.5em;
+  background: #fafaf6;
+  box-shadow: 0.1em 0.1em 0.4em rgba(0,0,0,0.25);
 }
 
 .players > li .close {
@@ -25,7 +46,11 @@
 
 li > p.player {
   margin: 0 0 0.5em;
-  color: #555;
+  color: #333;
+  font-size: 2em;
+  font-family: "VT323", monospace;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .picks > li {

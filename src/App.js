@@ -4,6 +4,20 @@ import Show from "./Show";
 
 import "./App.css";
 
+function showFor(date) {
+  return {
+    date,
+    players: [],
+    picks: {}
+  };
+}
+
+function showToElement(show) {
+  return <li key={show.date}>
+    <Show {...show} />
+  </li>;
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -13,11 +27,7 @@ class App extends Component {
 
   _addShow() {
     const date = window.prompt("Date? YYYY-MM-DD").trim();
-    this.props.shows.push({
-      date,
-      players: [],
-      picks: {}
-    });
+    this.props.shows.push(showFor(date));
     this.forceUpdate();
   }
 
@@ -26,11 +36,7 @@ class App extends Component {
     return <div className="app">
       <button className="addShow" onClick={this.addShow}>add a show</button>
       <ul className="shows">
-      {this.props.shows.map((show) => {
-        return <li key={show.date}>
-          <Show {...show} />
-        </li>;
-      })}
+        {this.props.shows.map(showToElement)}
       </ul>
     </div>;
   }

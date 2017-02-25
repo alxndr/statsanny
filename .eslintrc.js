@@ -15,10 +15,11 @@ module.exports = {
   ],
   "extends": ["eslint:recommended"],
   "rules": {
+    "comma-dangle": ["warn", "only-multiline"],
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "no-console": ["warn"],
     "react/jsx-uses-react": ["error"],
-    "react/jsx-uses-vars": ["error"]
+    "react/jsx-uses-vars": ["error"],
   }
 };

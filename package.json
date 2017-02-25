@@ -18,10 +18,13 @@
     "uniqid": "^4.1.1"
   },
   "scripts": {
+    "lint": "npm run lint:js",
+    "lint:js": "eslint *.js **/*.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "npm run build && gh-pages -d build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "npm run lint && npm run test:js",
+    "test:js": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
 }

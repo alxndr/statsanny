@@ -13,7 +13,7 @@ class ShowList extends Component {
 
   _convertShowToElement(show) {
     return <li key={show.date}>
-      <Show {...show} onUpdated={this.props.onUpdated} />
+      <Show {...show} addPerson={this.props.addPerson} />
     </li>;
   }
 

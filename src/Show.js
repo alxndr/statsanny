@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { slugify } from "./utils";
 
-import Points from "./Points";
+import PlayerTicket from "./PlayerTicket";
 
 import { findAlias } from "./song-helper";
 
@@ -11,31 +11,21 @@ function extractJson(response) {
   return response.json();
 }
 
-function nameToPlayer(name) {
-  name = name.trim();
-  return {
-    name,
-    picks: [],
-    points: 0,
-    slug: slugify(name),
-  };
-}
+// function nameToPlayer(name) {
+//   name = name.trim();
+//   return {
+//     name,
+//     picks: [],
+//     points: 0,
+//     slug: slugify(name),
+//   };
+// }
 
 class Show extends Component {
 
   constructor(props) {
     super(props);
-    this.addPlayer = this._addPlayer.bind(this);
     this.runTheNumbers = this._runTheNumbers.bind(this);
-  }
-
-  _addPlayer() {
-    const name = window.prompt("name?").trim();
-    if (!name.length) {
-      return;
-    }
-    this.props.players.push(nameToPlayer(name));
-    this.forceUpdate();
   }
 
   _runTheNumbers() {
@@ -50,9 +40,7 @@ class Show extends Component {
         if (!data) {
           return false;
         }
-        // console.log("got data", data);
-        // console.log("picks...", this.props.picks);
-        data.tracks.map((track) => {
+        data.tracks.forEach((track) => {
           const songSlug = slugify(track.title.toLowerCase());
           const thePick = this.props.picks[songSlug];
           if (thePick) {
@@ -91,35 +79,26 @@ class Show extends Component {
   }
 
   removePlayer(player) {
-    console.log("removing", player);
-    player.picks.map((pickSlug) => {
+    player.picks.forEach((pickSlug) => {
       delete this.props.picks[pickSlug];
     });
     this.props.players.splice(this.props.players.indexOf(player), 1);
-    console.log("now we have props...", this.props);
-    this.forceUpdate();
+    this.forceUpdate(); // TODO get rid of this
   }
 
   render() {
-    // console.log("show rendering", this.props);
     return <div className="show">
+      {/*<button onClick={this.props.removeShow} className="close">x</button>*/}
       <p className="date">
         <input type="text" value={this.props.date} readOnly />
-        <button onClick={this.runTheNumbers}>run the numbers</button>
+        <button onClick={this.runTheNumbers}>calculate</button>
       </p>
-      <button className="addPerson" onClick={this.addPlayer}>add person</button>
+      <button className="addPerson" onClick={() => this.props.addPerson(this.props.date)}>add person</button>
       <ul className="players">
         {this.props.players.map((player) => {
+          // TODO extract this
           return <li key={player.slug}>
-            <button className="close" onClick={this.removePlayer.bind(this, player)}>x</button>
-            <p className="player">{player.name}'s picks... <Points points={player.points} /></p>
-            <ul className="picks">
-              {player.picks.map((songSlug) => {
-                const pick = this.props.picks[songSlug];
-                return <li key={`${player.slug}-${slugify(pick.title)}`}>{pick.title}</li>;
-              })}
-              <li><button className="addPick" onClick={this.chooseSong.bind(this, player)}>+</button></li>
-            </ul>
+            <PlayerTicket {...player} onRemove={this.removePlayer.bind(this)} />
           </li>;
         })}
       </ul>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Show from "./Show";
+import ShowList from "./ShowList";
 
 import "./App.css";
 
@@ -40,7 +40,6 @@ class App extends Component {
     this.state = loadState();
     this.addShow = this._addShow.bind(this);
     this.saveState = this._saveState.bind(this);
-    this.convertShowToElement = this._convertShowToElement.bind(this);
   }
 
   componentDidUpdate() {
@@ -57,18 +56,10 @@ class App extends Component {
     saveState(this.state);
   }
 
-  _convertShowToElement(show) {
-    return <li key={show.date}>
-      <Show {...show} onUpdated={this.saveState} />
-    </li>;
-  }
-
   render() {
     return <div className="app">
       <button className="addShow" onClick={this.addShow}>add a show</button>
-      <ul className="shows">
-        {this.state.shows.map(this.convertShowToElement)}
-      </ul>
+      <ShowList shows={this.state.shows} onUpdated={this.saveState} />
     </div>;
   }
 }

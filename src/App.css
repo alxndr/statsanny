@@ -1,16 +1,3 @@
-.app {
-}
-
 .addShow {
   cursor: copy;
-}
-
-.shows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.shows > li {
-  float: left;
 }

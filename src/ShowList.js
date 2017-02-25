@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Show from "./Show";
 
+import "./ShowList.css";
+
 class ShowList extends Component {
 
   constructor(props) {

@@ -21,5 +21,8 @@ module.exports = {
     "no-console": ["warn"],
     "react/jsx-uses-react": ["error"],
     "react/jsx-uses-vars": ["error"],
-  }
+  },
+  "globals": {
+    "global": true,
+  },
 };

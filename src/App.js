@@ -6,6 +6,11 @@ import "./App.css";
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.addShow = this._addShow.bind(this);
+  }
+
   _addShow() {
     const date = window.prompt("Date? YYYY-MM-DD").trim();
     this.props.shows.push({
@@ -14,11 +19,6 @@ class App extends Component {
       picks: {}
     });
     this.forceUpdate();
-  }
-
-  constructor(props) {
-    super(props);
-    this.addShow = this._addShow.bind(this);
   }
 
   render() {

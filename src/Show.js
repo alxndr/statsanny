@@ -23,6 +23,12 @@ function nameToPlayer(name) {
 
 class Show extends Component {
 
+  constructor(props) {
+    super(props);
+    this.addPlayer = this._addPlayer.bind(this);
+    this.runTheNumbers = this._runTheNumbers.bind(this);
+  }
+
   _addPlayer() {
     const name = window.prompt("name?").trim();
     if (!name.length) {
@@ -59,12 +65,6 @@ class Show extends Component {
         return data;
       })
     ;
-  }
-
-  constructor(props) {
-    super(props);
-    this.addPlayer = this._addPlayer.bind(this);
-    this.runTheNumbers = this._runTheNumbers.bind(this);
   }
 
   addPick(player, songName) {

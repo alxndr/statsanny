@@ -4,6 +4,21 @@ import Show from "./Show";
 
 import "./App.css";
 
+const initialState = {
+  shows: [],
+};
+
+function loadState() {
+  try {
+    return global.localStorage
+      && global.localStorage.state
+      && JSON.parse(global.localStorage.state)
+      || initialState;
+  } catch (_error) {
+    return initialState;
+  }
+}
+
 function showFor(date) {
   return {
     date,
@@ -22,9 +37,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      shows: [],
-    };
+    this.state = loadState();
     this.addShow = this._addShow.bind(this);
   }
 

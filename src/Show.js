@@ -22,7 +22,7 @@ class Show extends Component {
       return false;
     }
     this.props.tickets.map((ticket) => ticket.points = 0); // reset scores
-    return fetch(`http://phish.in/api/v1/shows/${this.props.date}`)
+    return fetch(`//phish.in/api/v1/shows/${this.props.date}`)
       .then(extractJson)
       .then(({data}) => {
         if (!data) {

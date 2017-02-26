@@ -26,6 +26,7 @@ class App extends Component {
         addPerson={this.props.addPerson}
         chooseSong={this.props.chooseSong}
         removeShow={this.props.removeShow}
+        removeTicket={this.props.removeTicket}
       />
     </div>;
   }
@@ -56,6 +57,9 @@ const mapDispatchToProps = (dispatch) => {
       }
       return null;
     },
+    removeTicket: (ticketId) =>
+      dispatch(Actions.removeTicket(ticketId))
+      .then(() => dispatch(Actions.saveState())),
   };
 };
 

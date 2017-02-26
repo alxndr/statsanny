@@ -25,6 +25,22 @@ const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
 
 const removeShow = createAction("REMOVE_SHOW", (date) => Promise.reject(date));
 
+const removeTicketAction = createAction("REMOVE_TICKET", (ticket) => Promise.resolve(ticket)); // TODO this should just be one action
+const removeTicket = (ticketId) => {
+  return (dispatch, getState) => {
+    const ticket = getState().tickets[ticketId]; // TODO can we do getState in App's mapDispatchToProps?
+    if (!ticket) {
+      global.alert(`Uh oh, something went wrong... no record of ticket ${ticketId}`);
+      return Promise.reject(`ticketId not found: ${ticketId}`);
+    }
+    if (global.confirm(`Really delete ${ticket.name}'s picks for ${ticket.date}??\n\n(This can't be undone!)`)) {
+      return dispatch(removeTicketAction(ticket))
+        .then(() => dispatch(saveState()));
+    }
+    return Promise.resolve(`not deleting ticketId ${ticketId}`);
+  };
+};
+
 function putIntoLocalStorage(state) {
   if (global.localStorage) {
     global.localStorage.state = JSON.stringify(state);
@@ -38,5 +54,6 @@ export default {
   addTicket,
   chooseSong,
   removeShow,
+  removeTicket,
   saveState,
 };

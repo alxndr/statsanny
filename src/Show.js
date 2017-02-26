@@ -51,14 +51,6 @@ class Show extends Component {
     player.picks.push(songSlug);
   }
 
-  removePlayer(player) {
-    player.picks.forEach((pickSlug) => {
-      delete this.props.picks[pickSlug];
-    });
-    this.props.players.splice(this.props.players.indexOf(player), 1);
-    this.forceUpdate(); // TODO get rid of this
-  }
-
   render() {
     return <div className="show">
       <button onClick={this.props.removeShow} className="deleteShow">x</button>
@@ -71,7 +63,7 @@ class Show extends Component {
             <PlayerTicket
               {...ticket}
               chooseSong={this.props.chooseSong}
-              onRemove={this.removePlayer.bind(this)}
+              onRemove={this.props.removeTicket.bind(null, ticket.id)}
             />
           </li>;
         })}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { slugify } from "./utils";
 
 import Points from "./Points";
+import Song from "./Song";
 
 import "./PlayerTicket.css";
 
@@ -13,12 +14,14 @@ class PlayerTicket extends Component {
       <Points points={this.props.points} />
       <ul className="picks">
         {this.props.songs.map((pick) => {
-          return <li key={`${this.props.slug}-${slugify(pick.title)}`}>{pick.title}</li>;
+          return <li key={`${this.props.slug}-${slugify(pick.title)}`}>
+            <Song {...pick} deleteSong={this.props.deleteSong} />
+          </li>;
         })}
       </ul>
       <button className="addPick" onClick={this.props.chooseSong.bind(this, this.props.name, this.props.date)}>+</button>
-      <button className="close" onClick={this.props.onRemove}>x</button>
-    </div>
+      <button className="deleteTicket" onClick={this.props.onRemove}>x</button>
+    </div>;
   }
 }
 

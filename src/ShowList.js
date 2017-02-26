@@ -19,6 +19,7 @@ class ShowList extends Component {
         tickets={ticketsForThisShow}
         addPerson={this.props.addPerson}
         chooseSong={this.props.chooseSong}
+        removeTicket={this.props.removeTicket}
       />
     </li>;
   }
@@ -26,7 +27,7 @@ class ShowList extends Component {
   render() {
     return <ul className="shows">
       {Object.entries(this.props.shows).map(this.convertShowToElement)}
-    </ul>
+    </ul>;
   }
 }
 

@@ -1,0 +1,19 @@
+.song {
+  font-family: "VT323", monospace;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  position: relative; /* so .deleteSong can be absolutely positioned */
+}
+
+.deleteSong {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: red;
+  visibility: hidden;
+}
+
+.song:hover .deleteSong {
+  visibility: visible;
+}

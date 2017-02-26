@@ -8,7 +8,6 @@ import { findAlias } from "./song-helper";
 import "./App.css";
 
 function putIntoLocalStorage(state) {
-  console.log("savin it!", state);
   if (global.localStorage) {
     global.localStorage.state = JSON.stringify(state);
   }

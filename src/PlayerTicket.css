@@ -1,7 +1,6 @@
 .player-ticket {
-  width: 300px;
-  height: 200px;
-  padding: 0.5em;
+  width: 200px;
+  padding: 0.5em 0.5em 3em;
   margin: 0.5em;
   background: #fafaf6;
   box-shadow: 0.1em 0.1em 0.4em rgba(0,0,0,0.25);
@@ -19,14 +18,7 @@
   white-space: nowrap;
 }
 
-.picks > li {
-  font-family: "VT323", monospace;
-  font-size: 1.4em;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-}
-
-.player-ticket .close {
+.player-ticket .deleteTicket {
   position: absolute;
   bottom: 1em;
   right: 1em;
@@ -34,4 +26,9 @@
   background: none;
   border: 0;
   cursor: pointer;
+  visibility: hidden;
+}
+
+.player-ticket:hover .deleteTicket {
+  visibility: visible;
 }

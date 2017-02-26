@@ -62,7 +62,7 @@ class Show extends Component {
 
   render() {
     return <div className="show">
-      {/*<button onClick={this.props.removeShow} className="close">x</button>*/}
+      <button onClick={this.props.removeShow} className="deleteShow">x</button>
       <p className="date">{this.props.date}</p>
       <button onClick={this.runTheNumbers}>calculate</button>
       <button className="addPerson" onClick={() => this.props.addPerson(this.props.date)}>add person</button>

@@ -4,29 +4,26 @@ import Show from "./Show";
 
 import "./ShowList.css";
 
+function isTicketForShow(showDate) {
+  return (ticket) => ticket.date === showDate;
+}
+
 class ShowList extends Component {
-
-  constructor(props) {
-    super(props);
-    this.convertShowToElement = this._convertShowToElement.bind(this);
-  }
-
-  _convertShowToElement([showDate, show]) {
-    const ticketsForThisShow = Object.values(this.props.tickets).filter((ticket) => ticket.date === showDate);
-    return <li key={show.date}>
-      <Show
-        {...show}
-        tickets={ticketsForThisShow}
-        addPerson={this.props.addPerson}
-        chooseSong={this.props.chooseSong}
-        removeTicket={this.props.removeTicket}
-      />
-    </li>;
-  }
-
   render() {
+    const tickets = Object.values(this.props.tickets);
     return <ul className="shows">
-      {Object.entries(this.props.shows).map(this.convertShowToElement)}
+      {Object.values(this.props.shows).map((show) => {
+        const ticketsForThisShow = tickets.filter(isTicketForShow(show.date));
+        return <li key={show.date}>
+          <Show
+            {...show}
+            tickets={ticketsForThisShow}
+            addPerson={this.props.addPerson}
+            chooseSong={this.props.chooseSong}
+            removeTicket={this.props.removeTicket}
+          />
+        </li>;
+      })}
     </ul>;
   }
 }

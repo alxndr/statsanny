@@ -19,6 +19,7 @@ module.exports = {
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "no-console": ["warn"],
+    "no-unused-vars": ["error", {"argsIgnorePattern": "^_"}],
     "react/jsx-uses-react": ["error"],
     "react/jsx-uses-vars": ["error"],
   },

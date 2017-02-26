@@ -108,11 +108,21 @@ function reducer(state = loadState(), action) {
     };
   }
 
-  case "REMOVE_TICKET":
+  case "REMOVE_TICKET": {
+    const ticket = payload;
+    const show = state.shows[ticket.date];
     return {
       ...state,
-      tickets: objectWithoutKey(state.tickets, payload.id),
+      shows: {
+        ...state.shows,
+        [show.date]: {
+          ...show,
+          tickets: show.tickets.filter((t) => t.id !== ticket.id),
+        },
+      },
+      tickets: objectWithoutKey(state.tickets, ticket.id),
     };
+  }
 
   default:
     global.console.info("reducer saw unhandled action", state, action);

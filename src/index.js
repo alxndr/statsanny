@@ -15,7 +15,7 @@ const store = createStore(
   reducer,
   composeWithDevTools(applyMiddleware(
     promiseMiddleware,
-    thunkMiddleware,
+    thunkMiddleware
   )));
 
 render(

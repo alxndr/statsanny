@@ -68,7 +68,6 @@ class Show extends Component {
       <button className="addPerson" onClick={() => this.props.addPerson(this.props.date)}>add person</button>
       <ul className="tickets">
         {this.props.tickets.map((ticket) => {
-          // TODO extract this
           return <li key={ticket.id}>
             <PlayerTicket
               {...ticket}

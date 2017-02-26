@@ -16,7 +16,7 @@ function getShowDate() {
   return date;
 }
 
-class App extends Component {
+export class App extends Component {
   render() {
     return <div className="app">
       <button className="addShow" onClick={this.props.addShow}>add a show...</button>

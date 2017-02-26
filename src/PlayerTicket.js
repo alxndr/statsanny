@@ -14,7 +14,7 @@ class PlayerTicket extends Component {
       <Points points={this.props.points} />
       <ul className="picks">
         {this.props.songs.map((pick) => {
-          return <li key={`${this.props.slug}-${slugify(pick.title)}`}>
+          return <li key={`${key}-${slugify(pick.title)}`}>
             <Song {...pick} deleteSong={this.props.deleteSong} />
           </li>;
         })}

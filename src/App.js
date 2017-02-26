@@ -65,7 +65,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, getState) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addPerson: (showDate) =>
       dispatch(addTicket(getName(), showDate))

@@ -18,7 +18,7 @@ class Show extends Component {
 
   _runTheNumbers() { // TODO move this to a real action
     if (!this.props.tickets || !this.props.tickets.length) {
-      console.error("ruh roh");
+      global.console.error("ruh roh");
       return false;
     }
     this.props.tickets.map((ticket) => ticket.points = 0); // reset scores
@@ -30,12 +30,11 @@ class Show extends Component {
         }
         data.tracks.forEach((track) => {
           const songSlug = slugify(track.title.toLowerCase());
-          console.log("looking for", songSlug);
           const winningTicket = this.props.tickets.find((ticket) => {
             return ticket.songs.find((song) => slugify(song.title.toLowerCase()) === songSlug);
           });
           if (winningTicket) {
-            console.log("found it!", winningTicket.name);
+            global.console.info("found it!", winningTicket.name);
           }
         });
         return data;

@@ -3,7 +3,7 @@ import { slugify } from "./utils";
 
 import Points from "./Points";
 
-// import "./PlayerTicket.css"; // TODO
+import "./PlayerTicket.css";
 
 class PlayerTicket extends Component {
   render() {

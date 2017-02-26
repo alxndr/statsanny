@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=VT323");
-
 .addPerson {
   cursor: copy;
 }
@@ -7,10 +5,13 @@
 .show {
   margin: 1em 0 0 1em;
   padding: 1em;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  border-radius: 1.5em 1.5em 0 0;
 }
 
 .date {
   overflow: auto;
+  margin-top: 0;
 }
 
 .date input {
@@ -22,40 +23,20 @@
   font-weight: bold;
 }
 
-.players,
+.tickets,
 .picks {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.players > li {
-  padding: 0.5em;
-  margin: 0.5em;
-  background: #fafaf6;
-  box-shadow: 0.1em 0.1em 0.4em rgba(0,0,0,0.25);
-}
-
-.players > li .close {
-  float: right;
-  color: red;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-li > p.player {
-  margin: 0 0 0.5em;
-  color: #333;
-  font-size: 2em;
-  font-family: "VT323", monospace;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.picks > li {
-}
-
-.picks .addPick {
+.addPick {
+  display: block;
+  margin: 0.2em auto;
+  padding: 0.7em 1em;
   cursor: copy;
+  border: 0;
+  border-radius: 0.5em;
+  box-shadow: inset 0 0 1em gray;
+  background: transparent;
 }

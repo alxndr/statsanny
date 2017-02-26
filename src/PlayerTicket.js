@@ -7,19 +7,17 @@ import Points from "./Points";
 
 class PlayerTicket extends Component {
   render() {
+    const key = [this.props.date, this.props.name].join("-");
     return <div className="player-ticket">
       <button className="close" onClick={this.props.onRemove}>x</button>
-      <p className="player">
-        {this.props.name}'s picks...
-        <Points points={this.props.points} />
-      </p>
+      <p className="player">{this.props.name}'s picks</p>
+      <Points points={this.props.points} />
       <ul className="picks">
-        {this.props.picks.map((songSlug) => {
-          const pick = this.props.picks[songSlug];
+        {this.props.songs.map((pick) => {
           return <li key={`${this.props.slug}-${slugify(pick.title)}`}>{pick.title}</li>;
         })}
-        {/*<li><button className="addPick" onClick={this.chooseSong.bind(this, player)}>+</button></li>*/}
       </ul>
+      <button className="addPick" onClick={this.props.chooseSong.bind(this, this.props.name, this.props.date)}>+</button>
     </div>
   }
 }

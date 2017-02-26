@@ -11,15 +11,21 @@ class ShowList extends Component {
     this.convertShowToElement = this._convertShowToElement.bind(this);
   }
 
-  _convertShowToElement(show) {
+  _convertShowToElement([showDate, show]) {
+    const ticketsForThisShow = Object.values(this.props.tickets).filter((ticket) => ticket.date === showDate);
     return <li key={show.date}>
-      <Show {...show} addPerson={this.props.addPerson} />
+      <Show
+        {...show}
+        tickets={ticketsForThisShow}
+        addPerson={this.props.addPerson}
+        chooseSong={this.props.chooseSong}
+      />
     </li>;
   }
 
   render() {
     return <ul className="shows">
-      {this.props.shows.map(this.convertShowToElement)}
+      {Object.entries(this.props.shows).map(this.convertShowToElement)}
     </ul>
   }
 }

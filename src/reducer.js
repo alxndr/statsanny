@@ -1,7 +1,8 @@
 import slugify from "slugify";
 
 const initialState = {
-  shows: [],
+  shows: {},
+  tickets: {},
 };
 
 function loadState() {
@@ -15,21 +16,11 @@ function loadState() {
   }
 }
 
-function showFor(date) {
-  return {
+function newTicket(playerName, date, song) {return {
+    id: [date, playerName].join("-"),
     date,
-    players: [],
-    picks: {}
-  };
-}
-
-function nameToPlayer(name) {
-  name = name.trim();
-  return {
-    name,
-    picks: [],
-    points: 0,
-    slug: slugify(name),
+    name: playerName,
+    songs: [],
   };
 }
 
@@ -39,25 +30,55 @@ function reducer(state = loadState(), action) {
 
     case "ADD_SHOW": {
       const showDate = action.payload;
+      const newShow = {
+        date: showDate,
+        tickets: [],
+      };
       return {
         ...state,
-        shows: [showFor(showDate), ...state.shows],
+        shows: {
+          ...state.shows,
+          [showDate]: newShow,
+        },
       };
     }
 
-    case "ADD_PERSON": {
-      const theShowIndex = state.shows.findIndex((show) => show.date === payload.date);
-      const showWithNewPlayer = {
-        ...state.shows[theShowIndex],
-        players: [nameToPlayer(payload.name), ...state.shows[theShowIndex].players]
-      };
+    case "ADD_TICKET": {
+      const theShow = state.shows[payload.date];
+      const ticket = newTicket(payload.name, payload.date);
       return {
         ...state,
-        shows: [
-          ...state.shows.slice(0, theShowIndex),
-          showWithNewPlayer,
-          ...state.shows.slice(theShowIndex + 1)
-        ]
+        tickets: {
+          ...state.tickets,
+          [ticket.id]: ticket,
+        },
+        shows: {
+          ...state.shows,
+          [payload.date]: {
+            ...theShow,
+            tickets: [
+              ...theShow.tickets,
+              ticket.id,
+            ],
+          },
+        },
+      };
+    }
+
+    case "CHOOSE_SONG": {
+      const theTicket = state.tickets[`${payload.date}-${payload.playerName}`];
+      return {
+        ...state,
+        tickets: {
+          ...state.tickets,
+          [theTicket.id]: {
+            ...theTicket,
+            songs: [
+              ...theTicket.songs,
+              { title: payload.song }
+            ]
+          }
+        }
       };
     }
 

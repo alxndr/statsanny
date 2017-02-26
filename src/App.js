@@ -1,17 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createAction } from "redux-actions";
 
+import Actions from "./actions";
 import ShowList from "./ShowList";
-import { findAlias } from "./song-helper";
 
 import "./App.css";
-
-function putIntoLocalStorage(state) {
-  if (global.localStorage) {
-    global.localStorage.state = JSON.stringify(state);
-  }
-}
 
 function getName() {
   return window.prompt("name?").trim();
@@ -37,27 +30,6 @@ class App extends Component {
   }
 }
 
-// TODO move actions
-const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
-const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
-const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
-  let pick = window.prompt("What's your pick?").trim();
-  if (!pick.length) {
-    return Promise.reject("missing a pick");
-  }
-  const aliasedTo = findAlias(pick);
-  if (aliasedTo) {
-    pick = window.prompt("Did you mean...", aliasedTo).trim();
-  }
-  // TODO check for already picked...
-  return Promise.resolve({
-    playerName,
-    date,
-    song: pick
-  });
-});
-const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(getState()));
-
 const mapStateToProps = (state) => {
   return {
     shows: state.shows,
@@ -68,14 +40,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addPerson: (showDate) =>
-      dispatch(addTicket(getName(), showDate))
-      .then(() => dispatch(saveState())),
+      dispatch(Actions.addTicket(getName(), showDate))
+      .then(() => dispatch(Actions.saveState())),
     addShow: () =>
-      dispatch(addShow(getShowDate()))
-      .then(() => dispatch(saveState())),
+      dispatch(Actions.addShow(getShowDate()))
+      .then(() => dispatch(Actions.saveState())),
     chooseSong: (playerName, showDate) =>
-      dispatch(chooseSong(playerName, showDate))
-      .then(() => dispatch(saveState())),
+      dispatch(Actions.chooseSong(playerName, showDate))
+      .then(() => dispatch(Actions.saveState())),
   };
 };
 

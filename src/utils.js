@@ -1,4 +1,4 @@
-const REGEX_ELIDABLE_CHARACTERS = /['\.]/g;
+const REGEX_ELIDABLE_CHARACTERS = /['.]/g;
 const REGEX_REPLACEABLE_CHARACTERS = /[^a-z0-9]+/g;
 const REGEX_STARTING_TRAILING_HYPHENS = /^-+|-+$/g;
 

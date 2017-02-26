@@ -1,5 +1,3 @@
-import slugify from "slugify";
-
 const initialState = {
   shows: {},
   tickets: {},
@@ -16,7 +14,7 @@ function loadState() {
   }
 }
 
-function newTicket(playerName, date, song) {
+function newTicket(playerName, date) {
   return {
     id: [date, playerName].join("-"),
     date,

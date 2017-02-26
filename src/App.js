@@ -25,6 +25,7 @@ class App extends Component {
         tickets={this.props.tickets}
         addPerson={this.props.addPerson}
         chooseSong={this.props.chooseSong}
+        removeShow={this.props.removeShow}
       />
     </div>;
   }
@@ -48,6 +49,13 @@ const mapDispatchToProps = (dispatch) => {
     chooseSong: (playerName, showDate) =>
       dispatch(Actions.chooseSong(playerName, showDate))
       .then(() => dispatch(Actions.saveState())),
+    removeShow: (showDate) => {
+      if (global.confirm(`Really delete all entries for: ${showDate} ?\n\nThis can't be undone!`)) {
+        return dispatch(Actions.removeShow(showDate))
+          .then(() => dispatch(Actions.saveState()))
+      }
+      return null;
+    },
   };
 };
 

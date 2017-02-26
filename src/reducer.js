@@ -23,6 +23,23 @@ function newTicket(playerName, date) {
   };
 }
 
+function buildNewObject(newObj, [key, val]) {
+  newObj[key] = val;
+  return newObj;
+}
+
+function objectWithoutKey(obj, keyToRemove) {
+  return Object.entries(obj)
+    .filter(([key, _]) => key !== keyToRemove)
+    .reduce(buildNewObject, {});
+}
+
+function objectWithoutKeys(obj, keysToRemove) {
+  return Object.entries(obj)
+    .filter(([key, _]) => !keysToRemove.includes(key))
+    .reduce(buildNewObject, {});
+}
+
 function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
@@ -78,6 +95,16 @@ function reducer(state = loadState(), action) {
             ]
           }
         }
+      };
+    }
+
+    case "REMOVE_SHOW": {
+      const show = state.shows[payload];
+      const ticketsForShow = Object.values(state.tickets).filter((ticket) => show.tickets.includes(ticket.id));
+      return {
+        ...state,
+        shows: objectWithoutKey(state.shows, show.date),
+        tickets: objectWithoutKeys(state.tickets, ticketsForShow.map((ticket) => ticket.id)),
       };
     }
 

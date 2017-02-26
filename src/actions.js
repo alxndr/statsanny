@@ -23,6 +23,8 @@ const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
   });
 });
 
+const removeShow = createAction("REMOVE_SHOW", (date) => Promise.reject(date));
+
 function putIntoLocalStorage(state) {
   if (global.localStorage) {
     global.localStorage.state = JSON.stringify(state);
@@ -35,5 +37,6 @@ export default {
   addShow,
   addTicket,
   chooseSong,
+  removeShow,
   saveState,
 };

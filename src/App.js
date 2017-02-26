@@ -44,7 +44,7 @@ const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
 const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
   let pick = window.prompt("What's your pick?").trim();
   if (!pick.length) {
-    return;
+    return Promise.reject("missing a pick");
   }
   const aliasedTo = findAlias(pick);
   if (aliasedTo) {

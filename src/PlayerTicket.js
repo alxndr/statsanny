@@ -9,7 +9,6 @@ class PlayerTicket extends Component {
   render() {
     const key = [this.props.date, this.props.name].join("-");
     return <div className="player-ticket">
-      <button className="close" onClick={this.props.onRemove}>x</button>
       <p className="player">{this.props.name}'s picks</p>
       <Points points={this.props.points} />
       <ul className="picks">
@@ -18,6 +17,7 @@ class PlayerTicket extends Component {
         })}
       </ul>
       <button className="addPick" onClick={this.props.chooseSong.bind(this, this.props.name, this.props.date)}>+</button>
+      <button className="close" onClick={this.props.onRemove}>x</button>
     </div>
   }
 }

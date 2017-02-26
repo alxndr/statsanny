@@ -11,16 +11,13 @@
 
 .date {
   overflow: auto;
-  margin-top: 0;
+  margin: 0;
+  font-family: "VT323", monospace;
+  font-size: 2.5em;
+  letter-spacing: -0.01em;
 }
 
-.date input {
-  display: block;
-  float: left;
-  background: transparent;
-  border: 0;
-  font-size: 1.5em;
-  font-weight: bold;
+.show > button {
 }
 
 .tickets,
@@ -31,12 +28,13 @@
 }
 
 .addPick {
-  display: block;
-  margin: 0.2em auto;
+  position: absolute;
+  bottom: 1em;
+  left: 2em;
   padding: 0.7em 1em;
   cursor: copy;
   border: 0;
   border-radius: 0.5em;
-  box-shadow: inset 0 0 1em gray;
+  box-shadow: 0.1em 0.2em 0.3em rgba(0, 0, 0, 0.7), inset 0 0 1em gray;
   background: transparent;
 }

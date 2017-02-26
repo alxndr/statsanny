@@ -89,10 +89,8 @@ class Show extends Component {
   render() {
     return <div className="show">
       {/*<button onClick={this.props.removeShow} className="close">x</button>*/}
-      <p className="date">
-        <input type="text" value={this.props.date} readOnly />
-        <button onClick={this.runTheNumbers}>calculate</button>
-      </p>
+      <p className="date">{this.props.date}</p>
+      <button onClick={this.runTheNumbers}>calculate</button>
       <button className="addPerson" onClick={() => this.props.addPerson(this.props.date)}>add person</button>
       <ul className="tickets">
         {this.props.tickets.map((ticket) => {

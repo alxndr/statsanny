@@ -3,23 +3,11 @@ import { slugify } from "./utils";
 
 import PlayerTicket from "./PlayerTicket";
 
-import { findAlias } from "./song-helper";
-
 import "./Show.css";
 
 function extractJson(response) {
   return response.json();
 }
-
-// function nameToPlayer(name) {
-//   name = name.trim();
-//   return {
-//     name,
-//     picks: [],
-//     points: 0,
-//     slug: slugify(name),
-//   };
-// }
 
 class Show extends Component {
 
@@ -62,20 +50,6 @@ class Show extends Component {
       who: player.name
     };
     player.picks.push(songSlug);
-  }
-
-  chooseSong(player) {
-    let pick = window.prompt("What's your pick?").trim();
-    if (!pick.length) {
-      return;
-    }
-    const aliasedTo = findAlias(pick);
-    if (aliasedTo) {
-      pick = window.prompt("Did you mean...", aliasedTo);
-    }
-    // TODO check for already picked...
-    this.addPick(player, pick);
-    this.forceUpdate();
   }
 
   removePlayer(player) {

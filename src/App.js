@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { createAction } from "redux-actions";
 
 import ShowList from "./ShowList";
+import { findAlias } from "./song-helper";
 
 import "./App.css";
 
@@ -40,7 +41,22 @@ class App extends Component {
 // TODO move actions
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
 const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
-const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => Promise.resolve({playerName, date, song: prompt("what song?")}));
+const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
+  let pick = window.prompt("What's your pick?").trim();
+  if (!pick.length) {
+    return;
+  }
+  const aliasedTo = findAlias(pick);
+  if (aliasedTo) {
+    pick = window.prompt("Did you mean...", aliasedTo).trim();
+  }
+  // TODO check for already picked...
+  return Promise.resolve({
+    playerName,
+    date,
+    song: pick
+  });
+});
 const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(getState()));
 
 const mapStateToProps = (state) => {

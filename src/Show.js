@@ -16,12 +16,12 @@ class Show extends Component {
     this.runTheNumbers = this._runTheNumbers.bind(this);
   }
 
-  _runTheNumbers() {
-    if (!this.props.picks || !Object.keys(this.props.picks)) {
+  _runTheNumbers() { // TODO move this to a real action
+    if (!this.props.tickets || !this.props.tickets.length) {
       console.error("ruh roh");
       return false;
     }
-    this.props.players.map((player) => player.points = 0); // reset scores
+    this.props.tickets.map((ticket) => ticket.points = 0); // reset scores
     return fetch(`http://phish.in/api/v1/shows/${this.props.date}`)
       .then(extractJson)
       .then(({data}) => {
@@ -30,14 +30,14 @@ class Show extends Component {
         }
         data.tracks.forEach((track) => {
           const songSlug = slugify(track.title.toLowerCase());
-          const thePick = this.props.picks[songSlug];
-          if (thePick) {
-            const player = this.props.players.find((player) => player.name === thePick.who);
-            player.points += 1;
-            console.log(thePick.who, "picked", track.title, "now has", player.points, "points");
+          console.log("looking for", songSlug);
+          const winningTicket = this.props.tickets.find((ticket) => {
+            return ticket.songs.find((song) => slugify(song.title.toLowerCase()) === songSlug);
+          });
+          if (winningTicket) {
+            console.log("found it!", winningTicket.name);
           }
         });
-        this.forceUpdate();
         return data;
       })
     ;

@@ -16,7 +16,8 @@ function loadState() {
   }
 }
 
-function newTicket(playerName, date, song) {return {
+function newTicket(playerName, date, song) {
+  return {
     id: [date, playerName].join("-"),
     date,
     name: playerName,

@@ -58,15 +58,15 @@ class Show extends Component {
       <button onClick={this.runTheNumbers}>calculate</button>
       <button className="addPerson" onClick={() => this.props.addPerson(this.props.date)}>add person</button>
       <ul className="tickets">
-        {this.props.tickets.map((ticket) => {
-          return <li key={ticket.id}>
+        {this.props.tickets.map((ticket) =>
+          <li key={ticket.id}>
             <PlayerTicket
               {...ticket}
               chooseSong={this.props.chooseSong}
               onRemove={this.props.removeTicket.bind(null, ticket.id)}
             />
-          </li>;
-        })}
+          </li>
+        )}
       </ul>
     </div>;
   }

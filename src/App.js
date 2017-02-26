@@ -51,9 +51,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.chooseSong(playerName, showDate))
       .then(() => dispatch(Actions.saveState())),
     removeShow: (showDate) => {
-      if (global.confirm(`Really delete all entries for: ${showDate} ?\n\nThis can't be undone!`)) {
+      if (global.confirm(`Really delete all entries for: ${showDate} ?\n\n(This can't be undone!)`)) {
         return dispatch(Actions.removeShow(showDate))
-          .then(() => dispatch(Actions.saveState()))
+          .then(() => dispatch(Actions.saveState()));
       }
       return null;
     },

@@ -16,7 +16,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(
     promiseMiddleware,
     thunkMiddleware
-  )));
+  ))
+);
 
 render(
   <Provider store={store}>

@@ -57,7 +57,7 @@ const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(get
 
 const scoreShow = createAction("SCORE_SHOW", (show) => {
   console.log("scoring show...", show);
-  return fetch(`https://api.phish.net/v3/setlists/get?showdate=${show.date}&apikey=${apiKey}`)
+  return fetch(`https://crossorigin.me/https://api.phish.net/v3/setlists/get?showdate=${show.date}&apikey=${apiKey}`)
     .then(extractJson)
     .then(({data}) => {
       if (!data) {

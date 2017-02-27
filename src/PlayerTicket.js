@@ -28,7 +28,7 @@ class PlayerTicket extends Component {
         })}
       </ul>
       <button className="addPick" onClick={this.props.chooseSong.bind(this, this.props.name, this.props.date)}>+</button>
-      <button className="deleteTicket" onClick={this.props.onRemove}>x</button>
+      <button className="deleteTicket" onClick={this.props.deleteTicket}>x</button>
     </div>;
   }
 }

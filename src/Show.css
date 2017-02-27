@@ -25,6 +25,7 @@
   color: red;
   visibility: hidden;
 }
+
 .show:hover .deleteShow {
   visibility: visible;
 }

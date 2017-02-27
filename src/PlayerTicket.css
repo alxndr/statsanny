@@ -3,7 +3,7 @@
   padding: 0.5em 0.5em 3em;
   margin: 0.5em;
   background: #fafaf6;
-  box-shadow: 0.1em 0.1em 0.4em rgba(0,0,0,0.25);
+  box-shadow: 0.1em 0.1em 0.4em rgba(0, 0, 0, 0.25);
   position: relative; /* so close button can be positioned */
 }
 

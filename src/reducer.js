@@ -30,7 +30,7 @@ function reducer(state = loadState(), action) {
   switch (action.type) {
 
   case "ADD_SHOW": {
-    const showDate = action.payload;
+    const showDate = payload;
     const newShow = {
       date: showDate,
       tickets: [],

@@ -23,6 +23,7 @@ class ShowList extends Component {
             removeShow={this.props.removeShow.bind(null, show.date)}
             removeSong={this.props.removeSong}
             removeTicket={this.props.removeTicket}
+            scoreShow={this.props.scoreShow.bind(null, show)}
           />
         </li>;
       })}

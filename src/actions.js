@@ -2,6 +2,10 @@ import { createAction } from "redux-actions";
 
 import { findAlias } from "./song-helper";
 
+import { extractJson } from "./utils";
+
+const apiKey = prompt("key?");
+
 const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
 
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
@@ -51,6 +55,18 @@ function putIntoLocalStorage(state) {
 
 const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(getState()));
 
+const scoreShow = createAction("SCORE_SHOW", (show) => {
+  console.log("scoring show...", show);
+  return fetch(`https://api.phish.net/v3/setlists/get?showdate=${show.date}&apikey=${apiKey}`)
+    .then(extractJson)
+    .then(({data}) => {
+      if (!data) {
+        throw new Error("No data from .net!");
+      }
+      console.log("got data!", data);
+    });
+});
+
 export default {
   addShow,
   addTicket,
@@ -59,4 +75,5 @@ export default {
   removeSong,
   removeTicket,
   saveState,
+  scoreShow,
 };

@@ -19,6 +19,10 @@ function buildNewObject(newObj, [key, val]) {
   return newObj;
 }
 
+function extractJson(response) {
+  return response.json();
+}
+
 function objectWithoutKey(obj, keyToRemove) {
   return Object.entries(obj)
     .filter(([key, _]) => key !== keyToRemove)
@@ -45,6 +49,7 @@ function slugify(term) {
 
 export {
   arrayWithoutElement,
+  extractJson,
   objectWithoutKey,
   objectWithoutKeys,
   slugify

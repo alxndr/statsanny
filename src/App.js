@@ -28,6 +28,7 @@ export class App extends Component {
         removeShow={this.props.removeShow}
         removeSong={this.props.removeSong}
         removeTicket={this.props.removeTicket}
+        scoreShow={this.props.scoreShow}
       />
     </div>;
   }
@@ -63,6 +64,9 @@ const mapDispatchToProps = (dispatch) => {
         .then(() => dispatch(Actions.saveState())),
     removeTicket: (ticketId) =>
       dispatch(Actions.removeTicket(ticketId))
+        .then(() => dispatch(Actions.saveState())),
+    scoreShow: (show) =>
+      dispatch(Actions.scoreShow(show))
         .then(() => dispatch(Actions.saveState())),
   };
 };

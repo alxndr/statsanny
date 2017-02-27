@@ -10,7 +10,9 @@
     "eslint-plugin-react": "^6.10.0",
     "gh-pages": "^0.12.0",
     "react-scripts": "0.8.5",
-    "redux-devtools": "^3.3.2"
+    "redux-devtools": "^3.3.2",
+    "stylelint": "^7.9.0",
+    "stylelint-config-standard": "^16.0.0"
   },
   "dependencies": {
     "react": "^15.4.2",
@@ -25,8 +27,9 @@
     "uniqid": "^4.1.1"
   },
   "scripts": {
-    "lint": "npm run lint:js",
-    "lint:js": "eslint *.js **/*.js",
+    "lint": "npm run lint:css && npm run lint:js && echo All linting successful.",
+    "lint:css": "stylelint --config=stylelint.config.js \"src/*.css\" && echo CSS linting successful.",
+    "lint:js": "eslint *.js **/*.js && echo JavaScript linting successful.",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "npm run build && gh-pages -d build",

@@ -44,13 +44,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addPerson: (showDate) =>
       dispatch(Actions.addTicket(getName(), showDate))
-      .then(() => dispatch(Actions.saveState())),
+        .then(() => dispatch(Actions.saveState())),
     addShow: () =>
       dispatch(Actions.addShow(getShowDate()))
-      .then(() => dispatch(Actions.saveState())),
+        .then(() => dispatch(Actions.saveState())),
     chooseSong: (playerName, showDate) =>
-      dispatch(Actions.chooseSong(playerName, showDate))
-      .then(() => dispatch(Actions.saveState())),
+      dispatch(Actions.addSong(playerName, showDate))
+        .then(() => dispatch(Actions.saveState())),
     removeShow: (showDate) => {
       if (global.confirm(`Really delete all entries for: ${showDate} ?\n\n(This can't be undone!)`)) {
         return dispatch(Actions.removeShow(showDate))
@@ -60,10 +60,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeSong: ({name, date, song}) =>
       dispatch(Actions.removeSong({name, date, song}))
-      .then(() => dispatch(Actions.saveState())),
+        .then(() => dispatch(Actions.saveState())),
     removeTicket: (ticketId) =>
       dispatch(Actions.removeTicket(ticketId))
-      .then(() => dispatch(Actions.saveState())),
+        .then(() => dispatch(Actions.saveState())),
   };
 };
 

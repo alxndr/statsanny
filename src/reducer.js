@@ -1,4 +1,4 @@
-import { objectWithoutKey, objectWithoutKeys } from "./utils";
+import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys } from "./utils";
 
 const initialState = {
   shows: {},
@@ -90,6 +90,22 @@ function reducer(state = loadState(), action) {
       ...state,
       shows: objectWithoutKey(state.shows, show.date),
       tickets: objectWithoutKeys(state.tickets, ticketsForShow.map((ticket) => ticket.id)),
+    };
+  }
+
+  case "REMOVE_SONG": {
+    const {date, name, song} = payload;
+    const ticketId = `${date}-${name}`;
+    const ticket = state.tickets[ticketId];
+    return {
+      ...state,
+      tickets: {
+        ...state.tickets,
+        [ticketId]: {
+          ...ticket,
+          songs: arrayWithoutElement(ticket.songs, song)
+        },
+      },
     };
   }
 

@@ -25,6 +25,8 @@ const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
 
 const removeShow = createAction("REMOVE_SHOW", (date) => Promise.reject(date));
 
+const removeSong = createAction("REMOVE_SONG", ({name, date, song}) => Promise.resolve({name, date, song}));
+
 const removeTicketAction = createAction("REMOVE_TICKET", (ticket) => Promise.resolve(ticket)); // TODO this should just be one action
 const removeTicket = (ticketId) => {
   return (dispatch, getState) => {
@@ -54,6 +56,7 @@ export default {
   addTicket,
   chooseSong,
   removeShow,
+  removeSong,
   removeTicket,
   saveState,
 };

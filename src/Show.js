@@ -64,6 +64,7 @@ class Show extends Component {
               {...ticket}
               chooseSong={this.props.chooseSong}
               onRemove={this.props.removeTicket.bind(null, ticket.id)}
+              removeSong={this.props.removeSong}
             />
           </li>
         )}

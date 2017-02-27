@@ -42,15 +42,6 @@ class Show extends Component {
     ;
   }
 
-  addPick(player, songName) {
-    const songSlug = slugify(songName.toLowerCase());
-    this.props.picks[songSlug] = {
-      title: songName,
-      who: player.name
-    };
-    player.picks.push(songSlug);
-  }
-
   render() {
     return <div className="show">
       <button onClick={this.props.removeShow} className="deleteShow">x</button>

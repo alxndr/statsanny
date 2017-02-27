@@ -1,3 +1,5 @@
+import { objectWithoutKey, objectWithoutKeys } from "./utils";
+
 const initialState = {
   shows: {},
   tickets: {},
@@ -21,23 +23,6 @@ function newTicket(playerName, date) {
     name: playerName,
     songs: [],
   };
-}
-
-function buildNewObject(newObj, [key, val]) {
-  newObj[key] = val;
-  return newObj;
-}
-
-function objectWithoutKey(obj, keyToRemove) {
-  return Object.entries(obj)
-    .filter(([key, _]) => key !== keyToRemove)
-    .reduce(buildNewObject, {});
-}
-
-function objectWithoutKeys(obj, keysToRemove) {
-  return Object.entries(obj)
-    .filter(([key, _]) => !keysToRemove.includes(key))
-    .reduce(buildNewObject, {});
 }
 
 function reducer(state = loadState(), action) {

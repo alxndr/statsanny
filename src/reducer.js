@@ -66,7 +66,7 @@ function reducer(state = loadState(), action) {
     };
   }
 
-  case "CHOOSE_SONG": {
+  case "ADD_SONG": {
     const theTicket = state.tickets[`${payload.date}-${payload.playerName}`];
     return {
       ...state,

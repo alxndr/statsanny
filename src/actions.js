@@ -6,7 +6,7 @@ const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
 
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
 
-const chooseSong = createAction("CHOOSE_SONG", (playerName, date) => {
+const addSong = createAction("ADD_SONG", (playerName, date) => {
   let pick = window.prompt("What's your pick?").trim();
   if (!pick.length) {
     return Promise.reject("missing a pick");
@@ -54,7 +54,7 @@ const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(get
 export default {
   addShow,
   addTicket,
-  chooseSong,
+  addSong,
   removeShow,
   removeSong,
   removeTicket,

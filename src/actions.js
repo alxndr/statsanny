@@ -31,6 +31,14 @@ const removeShow = createAction("REMOVE_SHOW", (date) => Promise.reject(date));
 
 const removeSong = createAction("REMOVE_SONG", ({name, date, song}) => Promise.resolve({name, date, song}));
 
+function putIntoLocalStorage(state) {
+  if (global.localStorage) {
+    global.localStorage.state = JSON.stringify(state);
+  }
+}
+
+const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(getState()));
+
 const removeTicketAction = createAction("REMOVE_TICKET", (ticket) => Promise.resolve(ticket)); // TODO this should just be one action
 const removeTicket = (ticketId) => {
   return (dispatch, getState) => {
@@ -46,14 +54,6 @@ const removeTicket = (ticketId) => {
     return Promise.resolve(`not deleting ticketId ${ticketId}`);
   };
 };
-
-function putIntoLocalStorage(state) {
-  if (global.localStorage) {
-    global.localStorage.state = JSON.stringify(state);
-  }
-}
-
-const saveState = () => (_, getState) => Promise.resolve(putIntoLocalStorage(getState()));
 
 const scoreShow = createAction("SCORE_SHOW", (show) => {
   console.log("scoring show...", show);

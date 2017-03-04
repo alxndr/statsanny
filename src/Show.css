@@ -1,7 +1,3 @@
-.addPerson {
-  cursor: copy;
-}
-
 .show {
   margin: 1em 0 0 1em;
   padding: 1em;
@@ -13,9 +9,8 @@
 .date {
   overflow: auto;
   margin: 0;
-  font-family: "VT323", monospace;
-  font-size: 2.5em;
-  letter-spacing: -0.01em;
+  font: 2em "Amatic SC";
+  text-align: center;
 }
 
 .show .deleteShow {
@@ -28,6 +23,16 @@
 
 .show:hover .deleteShow {
   visibility: visible;
+}
+
+.calculate {
+  float: right;
+  font-size: 2em;
+}
+
+.addPerson {
+  font-size: 2em;
+  cursor: copy;
 }
 
 .tickets,

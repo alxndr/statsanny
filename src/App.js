@@ -19,7 +19,8 @@ function getShowDate() {
 export class App extends Component {
   render() {
     return <div className="app">
-      <button className="addShow" onClick={this.props.addShow}>add a show...</button>
+      <h1>Statsanny</h1>
+      <button className="addShow" onClick={this.props.addShow}>➕ show</button>
       <ShowList
         shows={this.props.shows}
         tickets={this.props.tickets}

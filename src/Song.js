@@ -6,7 +6,7 @@ class Song extends Component {
   render() {
     return <div className="song">
       {this.props.title}
-      <button className="deleteSong" onClick={this.props.removeSong}>x</button>
+      <button className="deleteSong" onClick={this.props.removeSong}>❌</button>
     </div>;
   }
 }

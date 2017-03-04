@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, getState) => {
   return {
     addPerson: (showDate) =>
       dispatch(Actions.addTicket(getName(), showDate))
@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.removeSong({name, date, song}))
         .then(() => dispatch(Actions.saveState())),
     removeTicket: (ticketId) =>
-      dispatch(Actions.removeTicket(ticketId))
+      dispatch(Actions.removeTicket(getState().tickets[ticketId]))
         .then(() => dispatch(Actions.saveState())),
     scoreShow: (show) =>
       dispatch(Actions.scoreShow(show))

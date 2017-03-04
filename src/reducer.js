@@ -9,8 +9,8 @@ function loadState() {
   try {
     return global.localStorage
       && global.localStorage.state
-      && JSON.parse(global.localStorage.state)
-      || initialState;
+      && JSON.parse(global.localStorage.state) // eslint-disable-line no-mixed-operators
+      || initialState; // eslint-disable-line no-mixed-operators
   } catch (_error) {
     return initialState;
   }

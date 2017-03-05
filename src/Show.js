@@ -6,9 +6,13 @@ import PlayerTicket from "./PlayerTicket";
 import "./Show.css";
 
 function Show(props) {
-  const location = props.location ? <p className="location">{props.location}</p> : false;
+  const location = props.location
+    ? <p className="location">{props.location}</p>
+    : false;
   const dateFormatted = moment(props.date).format("MMM D, YYYY");
-  const dateContents = props.url ? <a href={props.url} target="_blank" rel="noopener noreferrer">{dateFormatted}</a> : dateFormatted;
+  const dateContents = props.url
+    ? <a href={props.url} target="_blank" rel="noopener noreferrer">{dateFormatted}</a>
+    : dateFormatted;
   return <div className="show">
     <button onClick={props.removeShow} className="deleteShow">❌</button>
     <button className="addPerson" onClick={() => props.addPerson(props.date)}>➕</button>

@@ -37,6 +37,11 @@ function objectWithoutKeys(obj, keysToRemove) {
     .reduce(buildNewObject, {});
 }
 
+const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
+function sanitizeString(string) {
+  return string.replace(REGEX_NON_ALPHANUMERIC, "");
+}
+
 function slugify(term) {
   // lowercase, strips out some characters/punctuation, replaces everything non-alphanum with a hyphen
   if (!term || !term.trim) {
@@ -58,6 +63,7 @@ export {
   extractJson,
   objectWithoutKey,
   objectWithoutKeys,
+  sanitizeString,
   slugify,
   trimString,
 }

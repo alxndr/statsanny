@@ -1,7 +1,7 @@
 import { createAction } from "redux-actions";
 
 import { songAliasFor } from "./phishStuff";
-import { extractJson, trimString } from "./utils";
+import { extractJson, sanitizeString, trimString } from "./utils";
 
 const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
@@ -41,21 +41,16 @@ const confirmRemoveShow = createAction("CONFIRM_REMOVE_SHOW", (showDate) => {
   return Promise.reject(`not removing all entries for ${showDate}`);
 });
 
-const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
-function sanitize(string) {
-  return string.replace(REGEX_NON_ALPHANUMERIC, "");
-}
-
 const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   const {shows, tickets} = getState();
   const ticketsForShow = shows[showDate].tickets.map((ticketId) => tickets[ticketId]);
   const songsSanitized = ticketsForShow
     .reduce((songs, ticket) => songs.concat(ticket.songs.map((song) => song.title)), [])
-    .map(sanitize);
+    .map(sanitizeString);
   let picks = [];
   let alreadyPicked = null;
   while (!picks.length // eslint-disable-line no-cond-assign
-      || (alreadyPicked = picks.find((pick) => songsSanitized.includes(sanitize(pick))))
+      || (alreadyPicked = picks.find((pick) => songsSanitized.includes(sanitizeString(pick))))
   ) {
     const messages = [];
     if (alreadyPicked) {

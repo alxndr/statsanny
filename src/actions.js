@@ -62,7 +62,7 @@ const promptForSong = (playerName, showDate) => (dispatch, getState) => {
     pick = window.prompt(`${alreadyPickedMessage}What is ${playerName} picking?`); // TODO edit on doc; uniq
     const aliasedTo = songAliasFor(pick);
     if (aliasedTo) {
-      pick = window.prompt("Did you mean...", aliasedTo).trim();
+      pick = aliasedTo;
     }
   }
   return dispatch(addSong(pick, playerName, showDate));

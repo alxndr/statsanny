@@ -1,6 +1,6 @@
 import { createAction } from "redux-actions";
 
-import { findAlias } from "./song-helper";
+import { songAliasFor } from "./phishStuff";
 
 import { extractJson } from "./utils";
 
@@ -14,7 +14,7 @@ const addSong = createAction("ADD_SONG", (playerName, date) => {
     return Promise.reject("missing a pick"); // TODO this still throws an error
   }
   pick = pick.trim();
-  const aliasedTo = findAlias(pick);
+  const aliasedTo = songAliasFor(pick);
   if (aliasedTo) {
     pick = window.prompt("Did you mean...", aliasedTo).trim();
   }

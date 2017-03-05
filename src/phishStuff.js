@@ -1,5 +1,4 @@
-import { slugify } from "./utils";
-
+// TODO rethink this...
 const aliases = {
   "1sttube":              "First Tube",
   "2001":                 "Also Sprach Zarathustra",
@@ -188,6 +187,6 @@ function findAlias(term) {
     || false;
 }
 
-export {
-  findAlias
-}
+export default {
+  songAliasFor: findAlias,
+};

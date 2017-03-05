@@ -1,4 +1,5 @@
 import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, slugify } from "./utils";
+import console from "./console";
 
 const initialState = {
   shows: {},
@@ -196,7 +197,6 @@ function reducer(state = loadState(), action) {
 
   case "SCORE_SHOW": {
     const show = payload;
-    console.log("scoring", show);
     return {
       ...state,
       tickets: {
@@ -212,7 +212,7 @@ function reducer(state = loadState(), action) {
 
   default:
     if (action.type !== "@@INIT") {
-      global.console.info("reducer saw unhandled action", state, action);
+      console.warn("reducer saw unhandled action", state, action);
     }
     return state;
   }

@@ -1,10 +1,12 @@
+import console from "./console";
+
 const REGEX_ELIDABLE_CHARACTERS = /['.]/g;
 const REGEX_REPLACEABLE_CHARACTERS = /[^a-z0-9]+/g;
 const REGEX_STARTING_TRAILING_HYPHENS = /^-+|-+$/g;
 
 function arrayWithoutElement(array, element) {
   if (!array.includes(element)) {
-    global.console.warn("Element", element, "not found in array", array);
+    console.warn("Element", element, "not found in array", array);
     return array;
   }
   const index = array.indexOf(element);

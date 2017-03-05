@@ -124,7 +124,7 @@ function reducer(state = loadState(), action) {
       const isEncore = rawSet.length < 5; // meh
       return rawSet.reduce((pS, song, index) => {
         pS[slugify(song.title)] = {
-          ...song,
+          title: song.title,
           isEncore,
           isOpener: index === 0 && !isEncore,
         };

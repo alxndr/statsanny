@@ -71,7 +71,7 @@ function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
 
-  case "ADD_TICKET": {
+  case "ADD_TICKETS": {
     const theShow = state.shows[payload.date];
     const ticket = newTicket(payload.name, payload.date);
     return {

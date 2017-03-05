@@ -30,7 +30,7 @@ const loadShowData = createAction("LOAD_SHOW_DATA", (date) => {
     });
 });
 
-const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
+const addTickets = createAction("ADD_TICKETS", (name, date) => Promise.resolve({name, date}));
 
 const addSong = createAction("ADD_SONG", (song, playerName, date) => {
   return Promise.resolve({
@@ -108,7 +108,7 @@ const runTheNumbers = (show) => (dispatch, _getState) => {
 };
 
 export default {
-  addTicket,
+  addTickets,
   addSong,
   loadShowData,
   promptForSong,

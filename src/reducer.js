@@ -133,8 +133,8 @@ function reducer(state = loadState(), action) {
     }
       // ...
     const songsPlayed = payload.setlist
-      ? Object.entries(payload.setlist).reduce((processedSongs, [setName, rawSet]) => {
-        const isEncore = rawSet.length < 5; // meh
+      ? Object.entries(payload.setlist).reduce((processedSongs, [_setName, rawSet]) => {
+        const isEncore = rawSet.length < 5; // meh. the setName isn't very exact... but neither is this.
         return rawSet.reduce((pS, song, index) => {
           pS[slugify(song.title)] = {
             title: song.title,

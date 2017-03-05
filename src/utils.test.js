@@ -1,5 +1,28 @@
 import * as utils from "./utils";
 
+describe("arrayWithoutElement", () => {
+  const arrayWithoutElement = utils.arrayWithoutElement;
+
+  describe("with array of elements + element in array", () => {
+    it.skip("returns new array of elements without specified element", () => { // TODO jest doesn't have Array::includes
+      const array = ["foo", "bar", "baz", "qux"];
+      const nextArray = arrayWithoutElement(array, "bar");
+      expect(nextArray).toEqual(["foo", "baz", "qux"]);
+    });
+  });
+});
+
+describe("objectWithoutKey", () => {
+  const objectWithoutKey = utils.objectWithoutKey;
+
+  describe("when passed an object and a key", () => {
+    it.skip("returns a new object without that key", () => { // TODO jest doesn't have Object::entries
+      const obj = {foo: "bar", baz: "qux"};
+      expect(objectWithoutKey(obj, "baz")).toEqual({foo: "bar"});
+    });
+  });
+});
+
 describe("sanitizeString", () => {
   const sanitizeString = utils.sanitizeString;
 

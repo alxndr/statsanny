@@ -19,7 +19,7 @@ export class App extends Component {
         shows={this.props.shows}
         tickets={this.props.tickets}
         addPerson={this.props.addPerson}
-        chooseSong={this.props.chooseSong}
+        chooseSong={this.props.promptForSong}
         removeShow={this.props.removeShow}
         removeSong={this.props.removeSong}
         removeTicket={this.props.removeTicket}
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
     addPerson: (showDate) =>
       dispatch(Actions.addTicket(getName(), showDate))
         .then(() => dispatch(Actions.saveState())),
-    chooseSong: (playerName, showDate) => // TODO rename this prop...
+    promptForSong: (playerName, showDate) =>
       dispatch(Actions.promptForSong(playerName, showDate))
         .then(() => dispatch(Actions.saveState())),
     promptForShowDate: () =>

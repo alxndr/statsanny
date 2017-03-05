@@ -25,7 +25,7 @@ const addSong = createAction("ADD_SONG", (playerName, date) => {
   });
 });
 
-const removeShow = createAction("REMOVE_SHOW", (date) => Promise.reject(date));
+const removeShow = createAction("REMOVE_SHOW", (date) => Promise.resolve(date));
 
 const removeSong = createAction("REMOVE_SONG", ({name, date, song}) => Promise.resolve({name, date, song}));
 

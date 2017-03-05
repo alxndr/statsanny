@@ -20,10 +20,7 @@ class PlayerTicket extends Component {
             song,
           };
           return <li key={`${key}-${slugify(song.title)}`}>
-            <Song
-              {...song}
-              removeSong={this.props.removeSong.bind(null, songInfo)}
-            />
+            <Song {...song} removeSong={this.props.removeSong.bind(null, songInfo)} />
           </li>;
         })}
       </ul>

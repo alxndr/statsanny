@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import Actions from "./actions";
@@ -10,23 +10,21 @@ function getName() {
   return window.prompt("name?").trim();
 }
 
-export class App extends Component {
-  render() {
-    return <div className="app">
-      <h1>Statsanny</h1>
-      <button className="addShow" onClick={this.props.promptForShowDate}>➕ show</button>
-      <ShowList
-        shows={this.props.shows}
-        tickets={this.props.tickets}
-        addPerson={this.props.addPerson}
-        chooseSong={this.props.promptForSong}
-        removeShow={this.props.removeShow}
-        removeSong={this.props.removeSong}
-        removeTicket={this.props.removeTicket}
-        runTheNumbers={this.props.runTheNumbers}
-      />
-    </div>;
-  }
+export function App(props) {
+  return <div className="app">
+    <h1>Statsanny</h1>
+    <button className="addShow" onClick={props.promptForShowDate}>➕ show</button>
+    <ShowList
+      shows={props.shows}
+      tickets={props.tickets}
+      addPerson={props.addPerson}
+      chooseSong={props.promptForSong}
+      removeShow={props.removeShow}
+      removeSong={props.removeSong}
+      removeTicket={props.removeTicket}
+      runTheNumbers={props.runTheNumbers}
+    />
+  </div>;
 }
 
 const mapStateToProps = (state) => ({

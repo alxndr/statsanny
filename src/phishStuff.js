@@ -22,6 +22,7 @@ const aliases = {
   "bag":                  "AC/DC Bag",
   "balive":               "Buried Alive",
   "balove":               "Bold As Love",
+  "bandb":                "Breath and Burning",
   "bbfcfm":               "Big Black Furry Creature from Mars",
   "bbjam":                "Big Ball Jam",
   "bbreathes":            "Billy Breathes",
@@ -71,6 +72,7 @@ const aliases = {
   "dtad":                 "Devotion To a Dream",
   "dwd":                  "Down with Disease",
   "fefy":                 "Fast Enough for You",
+  "forbin":               "Colonel Forbin's Ascent",
   "forbins":              "Colonel Forbin's Ascent",
   "fotm":                 "Fire on the Mountain",
   "fts":                  "The Fog That Surrounds",
@@ -130,10 +132,12 @@ const aliases = {
   "numberline":           "Backwards Down the Number Line",
   "ohkeepa":              "The Oh Kee Pa Ceremony",
   "ohplace":              "The Old Home Place",
+  "pandm":                "Pebbles and Marbles",
   "paug":                 "Weekapaug Groove",
   "peaches":              "Peaches en Regalia",
   "pheart":               "Poor Heart",
   "pitband":              "Playing in the Band",
+  "pnm":                  "Pebbles and Marbles",
   "pshippie":             "Prep School Hippie",
   "punch":                "Punch You In the Eye",
   "pyite":                "Punch You In the Eye",
@@ -198,7 +202,7 @@ const aliases = {
 const REGEX_NON_ALPHANUMERIC_NOR_POUND = /[^a-z0-9#]/g;
 
 function songAliasFor(term) {
-  const sanitizedTerm = term.toLowerCase().replace(REGEX_NON_ALPHANUMERIC_NOR_POUND, "");
+  const sanitizedTerm = term.toLowerCase().replace("&", " and ").replace(REGEX_NON_ALPHANUMERIC_NOR_POUND, "");
   return aliases[sanitizedTerm] || false;
 }
 

@@ -38,6 +38,7 @@ const aliases = {
   "caspian":              "Prince Caspian",
   "cdt":                  "Chalk Dust Torture",
   "chalkdust":            "Chalk Dust Torture",
+  "chalkdusttorture":     "Chalk Dust Torture",
   "char0":                "Character Zero",
   "charzero":             "Character Zero",
   "circus":               "When the Circus Comes",
@@ -179,14 +180,17 @@ const aliases = {
   "yarmouth":             "Yarmouth Road",
   "yem":                  "You Enjoy Myself",
   "ypc":                  "Your Pet Cat",
+  "zero":                 "Character Zero",
   "ziggy":                "Ziggy Stardust",
 };
 
-function findAlias(term) {
-  return aliases[term.toLowerCase().replace(/[^a-z0-9]/g, "")]
-    || false;
+const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
+
+function songAliasFor(term) {
+  const sanitizedTerm = term.toLowerCase().replace(REGEX_NON_ALPHANUMERIC, "");
+  return aliases[sanitizedTerm] || false;
 }
 
-export default {
-  songAliasFor: findAlias,
-};
+export {
+  songAliasFor,
+}

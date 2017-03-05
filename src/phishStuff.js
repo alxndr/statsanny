@@ -2,7 +2,10 @@
 const aliases = {
   "1sttube":              "First Tube",
   "2001":                 "Also Sprach Zarathustra",
+  "20":                   "Twenty Years Later",
   "20yl":                 "Twenty Years Later",
+  "46":                   "46 Days",
+  "7":                    "Seven Below",
   "7below":               "Seven Below",
   "atrain":               "Take the 'A' Train",
   "acdc":                 "AC/DC Bag",

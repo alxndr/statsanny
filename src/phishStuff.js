@@ -1,5 +1,6 @@
 // TODO rethink this...
 const aliases = {
+  "#line":                "Backwards Down the Number Line",
   "1sttube":              "First Tube",
   "2001":                 "Also Sprach Zarathustra",
   "20":                   "Twenty Years Later",
@@ -60,6 +61,7 @@ const aliases = {
   "daam":                 "Dinner and a Movie",
   "deg":                  "Dave's Energy Guide",
   "destiny":              "Destiny Unbound",
+  "devotion":             "Devotion To a Dream",
   "dfboy":                "Dog Faced Boy",
   "disease":              "Down with Disease",
   "divided":              "Divided Sky",
@@ -181,6 +183,7 @@ const aliases = {
   "wmggw":                "While My Guitar Gently Weeps",
   "wolfman":              "Wolfman's Brother",
   "wolfmans":             "Wolfman's Brother",
+  "wotc":                 "Walls of the Cave",
   "wotcave":              "Walls of the Cave",
   "wtu":                  "What's the Use?",
   "wudead":               "Waking Up Dead",
@@ -192,10 +195,10 @@ const aliases = {
   "ziggy":                "Ziggy Stardust",
 };
 
-const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
+const REGEX_NON_ALPHANUMERIC_NOR_POUND = /[^a-z0-9#]/g;
 
 function songAliasFor(term) {
-  const sanitizedTerm = term.toLowerCase().replace(REGEX_NON_ALPHANUMERIC, "");
+  const sanitizedTerm = term.toLowerCase().replace(REGEX_NON_ALPHANUMERIC_NOR_POUND, "");
   return aliases[sanitizedTerm] || false;
 }
 

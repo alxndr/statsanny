@@ -26,6 +26,7 @@ class ShowList extends Component {
             removeSong={this.props.removeSong}
             removeTicket={this.props.removeTicket}
             runTheNumbers={this.props.runTheNumbers.bind(null, show)}
+            venue={show.venue}
           />
         </li>;
       })}

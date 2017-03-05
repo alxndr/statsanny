@@ -10,3 +10,7 @@
 .shows > li {
   float: left;
 }
+
+.shows > li:last-child {
+  padding-right: 5em;
+}

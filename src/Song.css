@@ -2,12 +2,15 @@
 
 .song {
   position: relative; /* so .deleteSong can be absolutely positioned */
-  max-width: 12em;
-  padding-right: 1em;
   font-family: "VT323", monospace;
   font-size: 1.4em;
   text-transform: uppercase;
   letter-spacing: -0.03em;
+}
+
+.song .points {
+  float: right;
+  padding: 0 0.2em 0 0.5em;
 }
 
 .deleteSong {
@@ -15,6 +18,7 @@
   top: 0;
   right: 0;
   color: red;
+  background: white;
   visibility: hidden;
 }
 

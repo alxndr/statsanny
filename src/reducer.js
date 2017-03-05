@@ -56,7 +56,7 @@ function scoreTicket(ticket, show) {
 }
 
 const REGEX_THINGS_IN_ANGLE_BRACKETS = /<[^>]*?>/g;
-function stripHtml(string) {
+function stripHtml(string = "") {
   return string.replace(REGEX_THINGS_IN_ANGLE_BRACKETS, "");
 }
 
@@ -111,15 +111,13 @@ function reducer(state = loadState(), action) {
 
   case "LOAD_SHOW_DATA": {
     if (!state.shows[payload.date]) {
-      let newShow = {
+      const newShow = {
         date: payload.date,
+        location: cleanLocation(stripHtml(payload.location)),
         tickets: [],
         url: payload.url,
+        venue: stripHtml(payload.venue),
       };
-      if (payload.venue || payload.location) {
-        const location = cleanLocation(payload.location);
-        newShow.location = `@ ${[payload.venue, location].map(stripHtml).join(", ")}`;
-      }
       return {
         ...state,
         shows: {

@@ -4,7 +4,20 @@ import { songAliasFor } from "./phishStuff";
 
 import { extractJson } from "./utils";
 
-const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
+const addShow = createAction("ADD_SHOW", (date) => {
+  return fetch(makeUrl(date))
+    .then(extractJson)
+    .then(({data}) => {
+      console.log("all data from c/w", data);
+      return {
+        date: data.showdate,
+        location: data.location,
+        /* setlist: data.setlist,*/ // TODO shouldn't have to fetch again for LOAD_PLAYLIST...
+        url: data.url,
+        venue: data.venue,
+      };
+    });
+});
 
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
 

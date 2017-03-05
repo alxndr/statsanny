@@ -55,21 +55,27 @@ function scoreTicket(ticket, show) {
   };
 }
 
+const REGEX_THINGS_IN_ANGLE_BRACKETS = /<[^>]*?>/g;
+function stripHtml(string) {
+  return string.replace(REGEX_THINGS_IN_ANGLE_BRACKETS, "");
+}
+
 function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
 
   case "ADD_SHOW": {
-    const showDate = payload;
     const newShow = {
-      date: showDate,
+      date: payload.date,
+      location: `@ ${stripHtml(payload.venue)}, ${payload.location}`,
       tickets: [],
+      url: payload.url,
     };
     return {
       ...state,
       shows: {
         ...state.shows,
-        [showDate]: newShow,
+        [payload.date]: newShow,
       },
     };
   }

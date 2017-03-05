@@ -4,6 +4,7 @@ module.exports = {
     "es6": true,
     "jest": true
   },
+  "extends": ["eslint:recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -11,10 +12,7 @@ module.exports = {
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
-  "extends": ["eslint:recommended"],
+  "plugins": ["react"],
   "rules": {
     "comma-dangle": ["warn", "only-multiline"],
     "indent": ["error", 2],

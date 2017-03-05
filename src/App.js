@@ -48,14 +48,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.promptForShowDate())
         .then((date) => dispatch(Actions.loadShowData(date)))
         .then(() => dispatch(Actions.saveState())),
-    removeShow: (showDate) => {
-      // TODO this should be something like dispatch confirmRemoveShow(showdate)
-      if (global.confirm(`Really delete all entries for: ${showDate} ?\n\n(This can't be undone!)`)) {
-        return dispatch(Actions.removeShow(showDate))
-          .then(() => dispatch(Actions.saveState()));
-      }
-      return null;
-    },
+    removeShow: (showDate) =>
+      dispatch(Actions.confirmRemoveShow(showDate))
+        .then(() => dispatch(Actions.removeShow(showDate)))
+        .then(() => dispatch(Actions.saveState())),
     removeSong: ({name, date, song}) =>
       dispatch(Actions.removeSong({name, date, song}))
         .then(() => dispatch(Actions.saveState())),

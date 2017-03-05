@@ -40,6 +40,13 @@ const addSong = createAction("ADD_SONG", (song, playerName, date) => {
   });
 });
 
+const confirmRemoveShow = createAction("CONFIRM_REMOVE_SHOW", (showDate) => {
+  if (global.confirm(`Really delete all entries for: ${showDate} ?\n\n(This can't be undone!)`)) {
+    return Promise.resolve(showDate);
+  }
+  return Promise.reject(`not removing all entries for ${showDate}`);
+});
+
 const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
 function sanitize(string) {
   return string.replace(REGEX_NON_ALPHANUMERIC, "");
@@ -110,6 +117,7 @@ const runTheNumbers = (show) => (dispatch, _getState) => {
 export default {
   addTickets,
   addSong,
+  confirmRemoveShow,
   loadShowData,
   promptForSong,
   promptForShowDate,

@@ -211,7 +211,9 @@ function reducer(state = loadState(), action) {
   }
 
   default:
-    global.console.info("reducer saw unhandled action", state, action);
+    if (action.type !== "@@INIT") {
+      global.console.info("reducer saw unhandled action", state, action);
+    }
     return state;
   }
 }

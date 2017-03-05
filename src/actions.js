@@ -3,12 +3,8 @@ import { createAction } from "redux-actions";
 import { songAliasFor } from "./phishStuff";
 import { extractJson } from "./utils";
 
-function getShowDate() {
-  return (window.prompt("Date? YYYY-MM-DD") || "").trim() || false;
-}
-
 const promptForShowDate = () => (_dispatch, _getState) => {
-  const date = getShowDate(); // TODO replace with some GUI
+  const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
   if (date) {
     return Promise.resolve(date);
   }
@@ -101,7 +97,7 @@ const removeTicket = (ticketId) => {
 };
 
 function makeUrl(date) {
-  return `http://curtain-with.herokuapp.com/api/setlists/get?date=${date}`;
+  return `//curtain-with.herokuapp.com/api/setlists/get?date=${date}`;
 }
 
 const scoreShow = createAction("SCORE_SHOW");

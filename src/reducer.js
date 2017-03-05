@@ -60,6 +60,12 @@ function stripHtml(string) {
   return string.replace(REGEX_THINGS_IN_ANGLE_BRACKETS, "");
 }
 
+function cleanLocation(rawLocation = "") {
+  return rawLocation
+    .replace(" , ", " ")
+    .replace(", USA", "");
+}
+
 function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
@@ -105,12 +111,15 @@ function reducer(state = loadState(), action) {
 
   case "LOAD_SHOW_DATA": {
     if (!state.shows[payload.date]) {
-      const newShow = {
+      let newShow = {
         date: payload.date,
-        location: `@ ${stripHtml(payload.venue)}, ${payload.location}`,
         tickets: [],
         url: payload.url,
       };
+      if (payload.venue || payload.location) {
+        const location = cleanLocation(payload.location);
+        newShow.location = `@ ${[payload.venue, location].map(stripHtml).join(", ")}`;
+      }
       return {
         ...state,
         shows: {

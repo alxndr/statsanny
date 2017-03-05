@@ -10,15 +10,16 @@ h1 {
 }
 
 .addShow {
-  position: absolute;
-  top: 1em;
-  left: 1em;
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
   cursor: copy;
   padding: 0.3em 0.5em;
   border: 0;
   border-radius: 0.5em;
   box-shadow: inset 0 0 1em gray;
-  background: transparent;
+  background: white;
+  z-index: 1;
 }
 
 button {

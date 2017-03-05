@@ -17,6 +17,11 @@
   text-align: center;
 }
 
+.date a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .deleteShow {
   position: absolute;
   top: -1em;

@@ -20,6 +20,7 @@ class ShowList extends Component {
             tickets={ticketsForThisShow}
             addPerson={this.props.addPerson}
             chooseSong={this.props.chooseSong}
+            url={show.url}
             location={show.location}
             removeShow={this.props.removeShow.bind(null, show.date)}
             removeSong={this.props.removeSong}

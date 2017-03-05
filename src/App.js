@@ -48,12 +48,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.addTicket(getName(), showDate))
         .then(() => dispatch(Actions.saveState())),
     addShow: () =>
-      dispatch(Actions.addShow(getShowDate()))
+      dispatch(Actions.addShow(getShowDate())) // TODO rename
         .then(() => dispatch(Actions.saveState())),
-    chooseSong: (playerName, showDate) =>
-      dispatch(Actions.addSong(playerName, showDate))
+    chooseSong: (playerName, showDate) => // TODO rename this prop...
+      dispatch(Actions.pickSong(playerName, showDate))
         .then(() => dispatch(Actions.saveState())),
     removeShow: (showDate) => {
+      // TODO this should be something like dispatch confirmRemoveShow(showdate)
       if (global.confirm(`Really delete all entries for: ${showDate} ?\n\n(This can't be undone!)`)) {
         return dispatch(Actions.removeShow(showDate))
           .then(() => dispatch(Actions.saveState()));

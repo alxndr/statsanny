@@ -21,23 +21,35 @@ const addShow = createAction("ADD_SHOW", (date) => {
 
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
 
-const addSong = createAction("ADD_SONG", (playerName, date) => {
-  let pick = window.prompt(`What is ${playerName} picking?`);
-  if (!pick || !pick.length) {
-    return Promise.reject("missing a pick"); // TODO this still throws an error
-  }
-  pick = pick.trim();
-  const aliasedTo = songAliasFor(pick);
-  if (aliasedTo) {
-    pick = window.prompt("Did you mean...", aliasedTo).trim();
-  }
-  // TODO check for already picked...
+const addSong = createAction("ADD_SONG", (song, playerName, date) => {
   return Promise.resolve({
     playerName,
     date,
-    song: pick
+    song,
   });
 });
+
+const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
+function sanitize(string) {
+  return string.replace(REGEX_NON_ALPHANUMERIC, "");
+}
+
+const pickSong = (playerName, showDate) => (dispatch, getState) => {
+  let pick = null;
+  const state = getState();
+  const theShow = state.shows[showDate];
+  const tickets = theShow.tickets.map((ticketId) => state.tickets[ticketId]);
+  const songsPicked = tickets.reduce((songs, ticket) => songs.concat(ticket.songs.map((song) => song.title)), []);
+  const songsSanitized = songsPicked.map(sanitize);
+  while (!pick || !(pick = pick.trim()) || songsSanitized.includes(sanitize(pick))) {
+    pick = window.prompt(`What is ${playerName} picking?`); // TODO edit on doc; uniq
+    const aliasedTo = songAliasFor(pick);
+    if (aliasedTo) {
+      pick = window.prompt("Did you mean...", aliasedTo).trim();
+    }
+  }
+  return dispatch(addSong(pick, playerName, showDate));
+};
 
 const removeShow = createAction("REMOVE_SHOW", (date) => Promise.resolve(date));
 
@@ -92,7 +104,8 @@ const runTheNumbers = (show) => (dispatch, _getState) => {
 export default {
   addShow,
   addTicket,
-  addSong,
+  addSong, // TODO rename
+  pickSong,
   removeShow,
   removeSong,
   removeTicket,

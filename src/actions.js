@@ -50,14 +50,20 @@ function sanitize(string) {
 }
 
 const promptForSong = (playerName, showDate) => (dispatch, getState) => {
+  const {shows, tickets} = getState();
+  const ticketsForShow = shows[showDate].tickets.map((ticketId) => tickets[ticketId]);
+  const songsSanitized = ticketsForShow
+    .reduce((songs, ticket) => songs.concat(ticket.songs.map((song) => song.title)), [])
+    .map(sanitize);
   let pick = null;
-  const state = getState();
-  const theShow = state.shows[showDate];
-  const tickets = theShow.tickets.map((ticketId) => state.tickets[ticketId]);
-  const songsPicked = tickets.reduce((songs, ticket) => songs.concat(ticket.songs.map((song) => song.title)), []);
-  const songsSanitized = songsPicked.map(sanitize);
-  while (!pick || !(pick = pick.trim()) || songsSanitized.includes(sanitize(pick))) {
-    pick = window.prompt(`What is ${playerName} picking?`); // TODO edit on doc; uniq
+  while (!pick // eslint-disable-line no-cond-assign
+      || !(pick = pick.trim())
+      || songsSanitized.includes(sanitize(pick))
+  ) {
+    const alreadyPickedMessage = pick
+      ? `Uh oh, someone already picked ${pick}...\n`
+      : "";
+    pick = window.prompt(`${alreadyPickedMessage}What is ${playerName} picking?`); // TODO edit on doc; uniq
     const aliasedTo = songAliasFor(pick);
     if (aliasedTo) {
       pick = window.prompt("Did you mean...", aliasedTo).trim();

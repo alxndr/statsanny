@@ -11,7 +11,6 @@ class PlayerTicket extends Component {
     const key = [this.props.date, this.props.name].join("-");
     return <div className="player-ticket">
       <p className="player">{this.props.name}'s picks</p>
-      <Points points={this.props.points} />
       <ul className="picks">
         {this.props.songs.map((song) => {
           const songInfo = {
@@ -24,6 +23,7 @@ class PlayerTicket extends Component {
           </li>;
         })}
       </ul>
+      <Points points={this.props.score} />
       <button className="addPick" onClick={this.props.chooseSong.bind(this, this.props.name, this.props.date)}>+</button>
       <button className="deleteTicket" onClick={this.props.deleteTicket}>❌</button>
     </div>;

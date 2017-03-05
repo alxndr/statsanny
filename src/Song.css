@@ -10,12 +10,6 @@
   letter-spacing: -0.03em;
 }
 
-.points {
-  float: right;
-  padding-left: 0.5em;
-  color: gray;
-}
-
 .deleteSong {
   position: absolute;
   top: 0;

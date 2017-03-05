@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 
+import "./Points.css";
+
 class Points extends Component {
   render() {
     if (!this.props.points) {
       return false;
     }
     return <span className="points">
-      {this.props.points} point{this.props.points === 1 ? "" : "s"}
+      {this.props.points}
     </span>;
   }
 }

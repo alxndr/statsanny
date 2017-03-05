@@ -1,6 +1,7 @@
 /* Show.css */
 
 .show {
+  min-width: 13em;
   margin: 1em 0 0 1em;
   padding: 1em;
   background: linear-gradient(to bottom, rgba(88, 88, 88, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
@@ -15,10 +16,10 @@
   text-align: center;
 }
 
-.show .deleteShow {
+.deleteShow {
   position: absolute;
-  top: 1em;
-  right: 1em;
+  top: -1em;
+  right: -1em;
   color: red;
   visibility: hidden;
 }
@@ -27,12 +28,19 @@
   visibility: visible;
 }
 
+.addPerson,
 .calculate {
-  float: right;
+  position: absolute;
+  top: 0.5em;
+}
+
+.calculate {
+  right: 0.5em;
   font-size: 2em;
 }
 
 .addPerson {
+  left: 0.5em;
   font-size: 2em;
   cursor: copy;
 }
@@ -42,16 +50,4 @@
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.addPick {
-  position: absolute;
-  bottom: 1em;
-  left: 2em;
-  padding: 0.7em 1em;
-  cursor: copy;
-  border: 0;
-  border-radius: 0.5em;
-  box-shadow: 0.1em 0.2em 0.3em rgba(0, 0, 0, 0.7), inset 0 0 1em gray;
-  background: transparent;
 }

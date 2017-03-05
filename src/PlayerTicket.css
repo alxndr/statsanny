@@ -1,18 +1,18 @@
 /* PlayerTicket.css */
 
 .player-ticket {
+  position: relative; /* so close button can be positioned */
   min-width: 200px;
-  padding: 0.5em 0.5em 3em;
   margin: 0.5em;
+  padding: 0.5em 0.5em 3em;
   background: #fafaf6;
   box-shadow: 0.1em 0.1em 0.4em rgba(0, 0, 0, 0.25);
-  position: relative; /* so close button can be positioned */
+  font-family: "VT323", monospace;
 }
 
-.player-ticket p.player {
+p.player {
   margin: 0 0 0.5em;
   color: #333;
-  font-family: "VT323", monospace;
   font-size: 2em;
   text-align: center;
   text-transform: uppercase;
@@ -20,7 +20,19 @@
   white-space: nowrap;
 }
 
-.player-ticket .deleteTicket {
+.addPick {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  padding: 0.7em 1em;
+  cursor: copy;
+  border: 0;
+  border-radius: 0.5em;
+  box-shadow: 0.1em 0.2em 0.3em rgba(0, 0, 0, 0.7), inset 0 0 1em gray;
+  background: transparent;
+}
+
+.deleteTicket {
   position: absolute;
   bottom: 1em;
   right: 1em;

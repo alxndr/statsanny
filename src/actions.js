@@ -9,10 +9,11 @@ const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
 
 const addSong = createAction("ADD_SONG", (playerName, date) => {
-  let pick = window.prompt("What's your pick?").trim();
-  if (!pick.length) {
-    return Promise.reject("missing a pick");
+  let pick = window.prompt("What's your pick?");
+  if (!pick || !pick.length) {
+    return Promise.reject("missing a pick"); // TODO this still throws an error
   }
+  pick = pick.trim();
   const aliasedTo = findAlias(pick);
   if (aliasedTo) {
     pick = window.prompt("Did you mean...", aliasedTo).trim();

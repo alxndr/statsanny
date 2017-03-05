@@ -1,0 +1,20 @@
+/* Points.css */
+
+.song .points {
+  float: right;
+  padding-left: 0.5em;
+  color: gray;
+}
+
+.player-ticket > .points {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 1.5em;
+}
+.player-ticket > .points:before {
+  content: "score:\a";
+  text-transform: uppercase;
+}

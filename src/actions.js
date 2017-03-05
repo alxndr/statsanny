@@ -30,7 +30,7 @@ const loadShowData = createAction("LOAD_SHOW_DATA", (date) => {
     });
 });
 
-const addTickets = createAction("ADD_TICKETS", (name, date) => Promise.resolve({name, date}));
+const addTickets = createAction("ADD_TICKETS", (data) => Promise.resolve(data));
 
 const addSong = createAction("ADD_SONG", (song, playerName, date) => {
   return Promise.resolve({

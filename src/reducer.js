@@ -67,18 +67,26 @@ function cleanLocation(rawLocation = "") {
     .replace(", USA", "");
 }
 
+function trimString(string = "") {
+  return string.trim();
+}
+
 function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
 
   case "ADD_TICKETS": {
     const theShow = state.shows[payload.date];
-    const ticket = newTicket(payload.name, payload.date);
+    const names = payload.names.split(",").map(trimString);
+    const newTickets = names.map((name) => newTicket(name, payload.date));
     return {
       ...state,
       tickets: {
         ...state.tickets,
-        [ticket.id]: ticket,
+        ...newTickets.reduce((tickets, newTicket) => {
+          tickets[newTicket.id] = newTicket;
+          return tickets;
+        }, {}),
       },
       shows: {
         ...state.shows,
@@ -86,7 +94,7 @@ function reducer(state = loadState(), action) {
           ...theShow,
           tickets: [
             ...theShow.tickets,
-            ticket.id,
+            ...newTickets.map((ticket) => ticket.id),
           ],
         },
       },

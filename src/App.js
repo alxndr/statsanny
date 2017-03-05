@@ -34,7 +34,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addPerson: (showDate) =>
-    dispatch(Actions.addTickets(getName(), showDate))
+    dispatch(Actions.addTickets({names: getName(), date: showDate}))
       .then(() => dispatch(Actions.saveState())),
   promptForSong: (playerName, showDate) =>
     dispatch(Actions.promptForSong(playerName, showDate))

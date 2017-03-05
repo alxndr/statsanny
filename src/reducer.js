@@ -164,18 +164,18 @@ function reducer(state = loadState(), action) {
   }
 
   case "REMOVE_TICKET": {
-    const ticket = payload;
-    const show = state.shows[ticket.date];
+    const ticketToRemove = payload;
+    const show = state.shows[ticketToRemove.date];
     return {
       ...state,
       shows: {
         ...state.shows,
         [show.date]: {
           ...show,
-          tickets: show.tickets.filter((t) => t.id !== ticket.id),
+          tickets: show.tickets.filter((ticketId) => ticketId !== ticketToRemove.id),
         },
       },
-      tickets: objectWithoutKey(state.tickets, ticket.id),
+      tickets: objectWithoutKey(state.tickets, ticketToRemove.id),
     };
   }
 

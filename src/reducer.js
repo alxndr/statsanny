@@ -40,19 +40,40 @@ function pointsFor(song) {
   return score;
 }
 
+function pointsForSongIn(show) {
+  return (song) => ({
+    ...song,
+    points: pointsFor(show.songsPlayed[sanitizeString(song.title)]),
+  });
+}
+
+function sanitizeTitle(song) {
+  return sanitizeString(song.title);
+}
+
+function sum(a, b) {
+  return a + b;
+}
+
 function scoreTicket(ticket, show) {
-  const scoredSongs = ticket.songs.reduce((songsScored, song) => {
-    songsScored.push({
-      ...song,
-      points: pointsFor(show.songsPlayed[sanitizeString(song.title)]),
-    });
-    return songsScored;
-  }, []);
+  const scoredSongs = ticket.songs.map(pointsForSongIn(show));
   const songsWithPoints = scoredSongs.filter((song) => song.points > 0);
+  let bonusPoints = 0;
+  if (songsWithPoints.length === ticket.songs.length) {
+    bonusPoints += 1;
+  }
+  const encoreSongs = Object.values(show.songsPlayed).filter((song) => song.isEncore, []);
+  const firstEncoreSongNotPicked = encoreSongs.find((encoreSong) => {
+    const encoreSongTitleSanitized = sanitizeString(encoreSong.title);
+    return !ticket.songs.map(sanitizeTitle).includes(encoreSongTitleSanitized);
+  });
+  if (!firstEncoreSongNotPicked) {
+    bonusPoints += 1;
+  }
   return {
     ...ticket,
     songs: scoredSongs,
-    score: songsWithPoints.map((song) => song.points).reduce((a, b) => a + b, 0),
+    score: songsWithPoints.map((song) => song.points).reduce(sum, 0) + bonusPoints,
   };
 }
 

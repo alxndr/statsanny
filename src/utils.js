@@ -49,10 +49,15 @@ function slugify(term) {
   return term.replace(REGEX_REPLACEABLE_CHARACTERS, "-").replace(REGEX_STARTING_TRAILING_HYPHENS, "");
 }
 
+function trimString(string = "") {
+  return string.trim();
+}
+
 export {
   arrayWithoutElement,
   extractJson,
   objectWithoutKey,
   objectWithoutKeys,
-  slugify
+  slugify,
+  trimString,
 }

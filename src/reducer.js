@@ -1,4 +1,4 @@
-import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, slugify } from "./utils";
+import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, slugify, trimString } from "./utils";
 import console from "./console";
 
 const initialState = {
@@ -67,10 +67,6 @@ function cleanLocation(rawLocation = "") {
     .replace(", USA", "");
 }
 
-function trimString(string = "") {
-  return string.trim();
-}
-
 function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
@@ -101,7 +97,7 @@ function reducer(state = loadState(), action) {
     };
   }
 
-  case "ADD_SONG": {
+  case "ADD_SONGS": {
     const theTicket = state.tickets[`${payload.date}-${payload.playerName}`];
     return {
       ...state,
@@ -111,7 +107,7 @@ function reducer(state = loadState(), action) {
           ...theTicket,
           songs: [
             ...theTicket.songs,
-            { title: payload.song }
+            ...payload.songs.map((song) => ({ title: song }))
           ]
         }
       }

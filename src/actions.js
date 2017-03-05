@@ -1,7 +1,7 @@
 import { createAction } from "redux-actions";
 
 import { songAliasFor } from "./phishStuff";
-import { extractJson } from "./utils";
+import { extractJson, trimString } from "./utils";
 
 const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
@@ -32,13 +32,7 @@ const loadShowData = createAction("LOAD_SHOW_DATA", (date) => {
 
 const addTickets = createAction("ADD_TICKETS", (data) => Promise.resolve(data));
 
-const addSong = createAction("ADD_SONG", (song, playerName, date) => {
-  return Promise.resolve({
-    playerName,
-    date,
-    song,
-  });
-});
+const addSongs = createAction("ADD_SONGS", (songs, playerName, date) => Promise.resolve({date, playerName, songs}));
 
 const confirmRemoveShow = createAction("CONFIRM_REMOVE_SHOW", (showDate) => {
   if (global.confirm(`Really delete all entries for: ${showDate} ?\n\n(This can't be undone!)`)) {
@@ -58,21 +52,22 @@ const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   const songsSanitized = ticketsForShow
     .reduce((songs, ticket) => songs.concat(ticket.songs.map((song) => song.title)), [])
     .map(sanitize);
-  let pick = null;
-  while (!pick // eslint-disable-line no-cond-assign
-      || !(pick = pick.trim())
-      || songsSanitized.includes(sanitize(pick))
+  let picks = [];
+  let alreadyPicked = null;
+  while (!picks.length // eslint-disable-line no-cond-assign
+      || (alreadyPicked = picks.find((pick) => songsSanitized.includes(sanitize(pick))))
   ) {
-    const alreadyPickedMessage = pick
-      ? `Uh oh, someone already picked ${pick}...\n`
-      : "";
-    pick = window.prompt(`${alreadyPickedMessage}What is ${playerName} picking?`); // TODO edit on doc; uniq
-    const aliasedTo = songAliasFor(pick);
-    if (aliasedTo) {
-      pick = aliasedTo;
+    const messages = [];
+    if (alreadyPicked) {
+      messages.push(`Uh oh, someone already picked ${alreadyPicked}...`);
     }
+    messages.push(`What is ${playerName} picking?`);
+    picks = window.prompt(messages.join("\n\n")) // TODO could sanitize prompt() result and check if it's a song before splitting on commas
+      .split(",")
+      .map(trimString)
+      .map((pick) => songAliasFor(pick) || pick);
   }
-  return dispatch(addSong(pick, playerName, showDate));
+  return dispatch(addSongs(picks, playerName, showDate));
 };
 
 const removeShow = createAction("REMOVE_SHOW");
@@ -116,7 +111,7 @@ const runTheNumbers = (show) => (dispatch, _getState) => {
 
 export default {
   addTickets,
-  addSong,
+  addSongs,
   confirmRemoveShow,
   loadShowData,
   promptForSong,

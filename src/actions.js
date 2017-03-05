@@ -9,7 +9,7 @@ const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
 
 const addSong = createAction("ADD_SONG", (playerName, date) => {
-  let pick = window.prompt("What's your pick?");
+  let pick = window.prompt(`What is ${playerName} picking?`);
   if (!pick || !pick.length) {
     return Promise.reject("missing a pick"); // TODO this still throws an error
   }

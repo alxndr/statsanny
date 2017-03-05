@@ -29,39 +29,35 @@ export class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    shows: state.shows,
-    tickets: state.tickets,
-  };
-};
+const mapStateToProps = (state) => ({
+  shows: state.shows,
+  tickets: state.tickets,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addPerson: (showDate) =>
-      dispatch(Actions.addTickets(getName(), showDate))
-        .then(() => dispatch(Actions.saveState())),
-    promptForSong: (playerName, showDate) =>
-      dispatch(Actions.promptForSong(playerName, showDate))
-        .then(() => dispatch(Actions.saveState())),
-    promptForShowDate: () =>
-      dispatch(Actions.promptForShowDate())
-        .then((date) => dispatch(Actions.loadShowData(date)))
-        .then(() => dispatch(Actions.saveState())),
-    removeShow: (showDate) =>
-      dispatch(Actions.confirmRemoveShow(showDate))
-        .then(() => dispatch(Actions.removeShow(showDate)))
-        .then(() => dispatch(Actions.saveState())),
-    removeSong: ({name, date, song}) =>
-      dispatch(Actions.removeSong({name, date, song}))
-        .then(() => dispatch(Actions.saveState())),
-    removeTicket: (ticketId) =>
-      dispatch(Actions.removeTicket(ticketId))
-        .then(() => dispatch(Actions.saveState())),
-    runTheNumbers: (show) =>
-      dispatch(Actions.runTheNumbers(show))
-        .then(() => dispatch(Actions.saveState())),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  addPerson: (showDate) =>
+    dispatch(Actions.addTickets(getName(), showDate))
+      .then(() => dispatch(Actions.saveState())),
+  promptForSong: (playerName, showDate) =>
+    dispatch(Actions.promptForSong(playerName, showDate))
+      .then(() => dispatch(Actions.saveState())),
+  promptForShowDate: () =>
+    dispatch(Actions.promptForShowDate())
+      .then((date) => dispatch(Actions.loadShowData(date)))
+      .then(() => dispatch(Actions.saveState())),
+  removeShow: (showDate) =>
+    dispatch(Actions.confirmRemoveShow(showDate))
+      .then(() => dispatch(Actions.removeShow(showDate)))
+      .then(() => dispatch(Actions.saveState())),
+  removeSong: ({name, date, song}) =>
+    dispatch(Actions.removeSong({name, date, song}))
+      .then(() => dispatch(Actions.saveState())),
+  removeTicket: (ticketId) =>
+    dispatch(Actions.removeTicket(ticketId))
+      .then(() => dispatch(Actions.saveState())),
+  runTheNumbers: (show) =>
+    dispatch(Actions.runTheNumbers(show))
+      .then(() => dispatch(Actions.saveState())),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

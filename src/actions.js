@@ -3,7 +3,7 @@ import { createAction } from "redux-actions";
 import { songAliasFor } from "./phishStuff";
 import { extractJson } from "./utils";
 
-const promptForShowDate = () => (_dispatch, _getState) => {
+const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
   if (date) {
     return Promise.resolve(date);
@@ -75,9 +75,9 @@ const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   return dispatch(addSong(pick, playerName, showDate));
 };
 
-const removeShow = createAction("REMOVE_SHOW", (date) => Promise.resolve(date));
+const removeShow = createAction("REMOVE_SHOW");
 
-const removeSong = createAction("REMOVE_SONG", ({name, date, song}) => Promise.resolve({name, date, song}));
+const removeSong = createAction("REMOVE_SONG", (data) => Promise.resolve(data));
 
 function putIntoLocalStorage(state) {
   if (global.localStorage) {

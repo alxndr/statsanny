@@ -1,4 +1,4 @@
-import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys } from "./utils";
+import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, slugify } from "./utils";
 
 const initialState = {
   shows: {},
@@ -22,6 +22,36 @@ function newTicket(playerName, date) {
     date,
     name: playerName,
     songs: [],
+  };
+}
+
+function pointsFor(song) {
+  if (!song) {
+    return 0;
+  }
+  let score = 1;
+  if (song.isOpener) {
+    score += 2;
+  }
+  if (song.isEncore) {
+    score += 1;
+  }
+  return score;
+}
+
+function scoreTicket(ticket, show) {
+  const scoredSongs = ticket.songs.reduce((songsScored, song) => {
+    songsScored.push({
+      ...song,
+      points: pointsFor(show.songsPlayed[slugify(song.title)]),
+    });
+    return songsScored;
+  }, []);
+  const songsWithPoints = scoredSongs.filter((song) => song.points > 0);
+  return {
+    ...ticket,
+    songs: scoredSongs,
+    score: songsWithPoints.map((song) => song.points).reduce((a, b) => a + b, 0),
   };
 }
 
@@ -83,6 +113,30 @@ function reducer(state = loadState(), action) {
     };
   }
 
+  case "LOAD_PLAYLIST": {
+    const songsPlayed = Object.entries(payload.setlist).reduce((processedSongs, [setName, rawSet]) => {
+      const isEncore = rawSet.length < 5; // meh
+      return rawSet.reduce((pS, song, index) => {
+        pS[slugify(song.title)] = {
+          ...song,
+          isEncore,
+          isOpener: index === 0 && !isEncore,
+        };
+        return pS;
+      }, processedSongs);
+    }, {});
+    return {
+      ...state,
+      shows: {
+        ...state.shows,
+        [payload.date]: {
+          ...state.shows[payload.date],
+          songsPlayed,
+        },
+      },
+    };
+  }
+
   case "REMOVE_SHOW": {
     const show = state.shows[payload];
     const ticketsForShow = Object.values(state.tickets).filter((ticket) => show.tickets.includes(ticket.id));
@@ -122,6 +176,22 @@ function reducer(state = loadState(), action) {
         },
       },
       tickets: objectWithoutKey(state.tickets, ticket.id),
+    };
+  }
+
+  case "SCORE_SHOW": {
+    const show = payload;
+    console.log("scoring", show);
+    return {
+      ...state,
+      tickets: {
+        ...state.tickets,
+        ...show.tickets.reduce((scoredTickets, ticketId) => {
+          const ticket = state.tickets[ticketId];
+          scoredTickets[ticketId] = scoreTicket(ticket, state.shows[show.date]);
+          return scoredTickets;
+        }, {}),
+      }
     };
   }
 

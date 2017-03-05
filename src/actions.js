@@ -4,8 +4,6 @@ import { findAlias } from "./song-helper";
 
 import { extractJson } from "./utils";
 
-const apiKey = prompt("key?");
-
 const addShow = createAction("ADD_SHOW", (date) => Promise.resolve(date));
 
 const addTicket = createAction("ADD_TICKET", (name, date) => Promise.resolve({name, date}));
@@ -50,17 +48,27 @@ const removeTicket = (ticket) => {
   };
 };
 
-const scoreShow = createAction("SCORE_SHOW", (show) => {
-  console.log("scoring show...", show);
-  return fetch(`https://crossorigin.me/https://api.phish.net/v3/setlists/get?showdate=${show.date}&apikey=${apiKey}`)
+function makeUrl(date) {
+  return `http://curtain-with.herokuapp.com/api/setlists/get?date=${date}`;
+}
+
+const loadPlaylist = createAction("LOAD_PLAYLIST", (show) => {
+  return fetch(makeUrl(show.date))
     .then(extractJson)
     .then(({data}) => {
-      if (!data) {
-        throw new Error("No data from .net!");
-      }
-      console.log("got data!", data);
+      return {
+        date: show.date,
+        setlist: data.setlist,
+      };
     });
 });
+
+const scoreShow = createAction("SCORE_SHOW");
+
+const runTheNumbers = (show) => (dispatch, _getState) => {
+  return dispatch(loadPlaylist(show))
+    .then(() => dispatch(scoreShow(show)));
+};
 
 export default {
   addShow,
@@ -69,6 +77,6 @@ export default {
   removeShow,
   removeSong,
   removeTicket,
+  runTheNumbers,
   saveState,
-  scoreShow,
 };

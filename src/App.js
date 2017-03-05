@@ -29,7 +29,7 @@ export class App extends Component {
         removeShow={this.props.removeShow}
         removeSong={this.props.removeSong}
         removeTicket={this.props.removeTicket}
-        scoreShow={this.props.scoreShow}
+        runTheNumbers={this.props.runTheNumbers}
       />
     </div>;
   }
@@ -66,8 +66,8 @@ const mapDispatchToProps = (dispatch, getState) => {
     removeTicket: (ticketId) =>
       dispatch(Actions.removeTicket(getState().tickets[ticketId]))
         .then(() => dispatch(Actions.saveState())),
-    scoreShow: (show) =>
-      dispatch(Actions.scoreShow(show))
+    runTheNumbers: (show) =>
+      dispatch(Actions.runTheNumbers(show))
         .then(() => dispatch(Actions.saveState())),
   };
 };

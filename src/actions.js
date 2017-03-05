@@ -4,22 +4,21 @@ import { songAliasFor } from "./phishStuff";
 import { extractJson } from "./utils";
 
 function getShowDate() {
-  return (window.prompt("Date? YYYY-MM-DD") | "").trim() || false;
+  return (window.prompt("Date? YYYY-MM-DD") || "").trim() || false;
 }
 
-const promptForShowDate = createAction("ADD_SHOW", () => {
-  const date = getShowDate();
+const promptForShowDate = () => (_dispatch, _getState) => {
+  const date = getShowDate(); // TODO replace with some GUI
   if (date) {
     return Promise.resolve(date);
   }
-  return Promise.reject();
-});
+  return Promise.reject("no date");
+};
 
 const loadShowData = createAction("LOAD_SHOW_DATA", (date) => {
   return fetch(makeUrl(date))
     .then(extractJson)
     .then(({data}) => {
-      console.log("all data from c/w", data);
       if (data && data.showdate) {
         return {
           date: data.showdate,
@@ -50,7 +49,7 @@ function sanitize(string) {
   return string.replace(REGEX_NON_ALPHANUMERIC, "");
 }
 
-const pickSong = (playerName, showDate) => (dispatch, getState) => {
+const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   let pick = null;
   const state = getState();
   const theShow = state.shows[showDate];
@@ -108,8 +107,9 @@ const runTheNumbers = (show) => (dispatch, _getState) => {
 
 export default {
   addTicket,
-  addSong, // TODO rename
-  pickSong,
+  addSong,
+  loadShowData,
+  promptForSong,
   promptForShowDate,
   removeShow,
   removeSong,

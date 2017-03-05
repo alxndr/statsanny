@@ -42,10 +42,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.addTicket(getName(), showDate))
         .then(() => dispatch(Actions.saveState())),
     chooseSong: (playerName, showDate) => // TODO rename this prop...
-      dispatch(Actions.pickSong(playerName, showDate))
+      dispatch(Actions.promptForSong(playerName, showDate))
         .then(() => dispatch(Actions.saveState())),
     promptForShowDate: () =>
-      dispatch(Actions.promptForShowDate()) // TODO rename
+      dispatch(Actions.promptForShowDate())
         .then((date) => dispatch(Actions.loadShowData(date)))
         .then(() => dispatch(Actions.saveState())),
     removeShow: (showDate) => {

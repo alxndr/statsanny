@@ -1,4 +1,4 @@
-import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, slugify, trimString } from "./utils";
+import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, sanitizeString, trimString } from "./utils";
 import console from "./console";
 
 const initialState = {
@@ -44,7 +44,7 @@ function scoreTicket(ticket, show) {
   const scoredSongs = ticket.songs.reduce((songsScored, song) => {
     songsScored.push({
       ...song,
-      points: pointsFor(show.songsPlayed[slugify(song.title)]),
+      points: pointsFor(show.songsPlayed[sanitizeString(song.title)]),
     });
     return songsScored;
   }, []);
@@ -136,7 +136,7 @@ function reducer(state = loadState(), action) {
       ? Object.entries(payload.setlist).reduce((processedSongs, [_setName, rawSet]) => {
         const isEncore = rawSet.length < 5; // meh. the setName isn't very exact... but neither is this.
         return rawSet.reduce((pS, song, index) => {
-          pS[slugify(song.title)] = {
+          pS[sanitizeString(song.title)] = {
             title: song.title,
             isEncore,
             isOpener: index === 0 && !isEncore,

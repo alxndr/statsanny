@@ -39,7 +39,7 @@ function objectWithoutKeys(obj, keysToRemove) {
 
 const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
 function sanitizeString(string) {
-  return string.replace(REGEX_NON_ALPHANUMERIC, "");
+  return string.toLowerCase().replace(REGEX_NON_ALPHANUMERIC, "");
 }
 
 function slugify(term) {

@@ -3,17 +3,34 @@ import { createAction } from "redux-actions";
 import { songAliasFor } from "./phishStuff";
 import { extractJson } from "./utils";
 
-const addShow = createAction("ADD_SHOW", (date) => {
+function getShowDate() {
+  return (window.prompt("Date? YYYY-MM-DD") | "").trim() || false;
+}
+
+const promptForShowDate = createAction("ADD_SHOW", () => {
+  const date = getShowDate();
+  if (date) {
+    return Promise.resolve(date);
+  }
+  return Promise.reject();
+});
+
+const loadShowData = createAction("LOAD_SHOW_DATA", (date) => {
   return fetch(makeUrl(date))
     .then(extractJson)
     .then(({data}) => {
       console.log("all data from c/w", data);
+      if (data && data.showdate) {
+        return {
+          date: data.showdate,
+          location: data.location,
+          setlist: data.setlist,
+          url: data.url,
+          venue: data.venue,
+        };
+      }
       return {
-        date: data.showdate,
-        location: data.location,
-        /* setlist: data.setlist,*/ // TODO shouldn't have to fetch again for LOAD_PLAYLIST...
-        url: data.url,
-        venue: data.venue,
+        date
       };
     });
 });
@@ -82,29 +99,18 @@ function makeUrl(date) {
   return `http://curtain-with.herokuapp.com/api/setlists/get?date=${date}`;
 }
 
-const loadPlaylist = createAction("LOAD_PLAYLIST", (show) => {
-  return fetch(makeUrl(show.date))
-    .then(extractJson)
-    .then(({data}) => {
-      return {
-        date: show.date,
-        setlist: data.setlist,
-      };
-    });
-});
-
 const scoreShow = createAction("SCORE_SHOW");
 
 const runTheNumbers = (show) => (dispatch, _getState) => {
-  return dispatch(loadPlaylist(show))
+  return dispatch(loadShowData(show.date))
     .then(() => dispatch(scoreShow(show)));
 };
 
 export default {
-  addShow,
   addTicket,
   addSong, // TODO rename
   pickSong,
+  promptForShowDate,
   removeShow,
   removeSong,
   removeTicket,

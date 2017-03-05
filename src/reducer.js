@@ -64,22 +64,6 @@ function reducer(state = loadState(), action) {
   const payload = action.payload;
   switch (action.type) {
 
-  case "ADD_SHOW": {
-    const newShow = {
-      date: payload.date,
-      location: `@ ${stripHtml(payload.venue)}, ${payload.location}`,
-      tickets: [],
-      url: payload.url,
-    };
-    return {
-      ...state,
-      shows: {
-        ...state.shows,
-        [payload.date]: newShow,
-      },
-    };
-  }
-
   case "ADD_TICKET": {
     const theShow = state.shows[payload.date];
     const ticket = newTicket(payload.name, payload.date);
@@ -119,18 +103,36 @@ function reducer(state = loadState(), action) {
     };
   }
 
-  case "LOAD_PLAYLIST": {
-    const songsPlayed = Object.entries(payload.setlist).reduce((processedSongs, [setName, rawSet]) => {
-      const isEncore = rawSet.length < 5; // meh
-      return rawSet.reduce((pS, song, index) => {
-        pS[slugify(song.title)] = {
-          title: song.title,
-          isEncore,
-          isOpener: index === 0 && !isEncore,
-        };
-        return pS;
-      }, processedSongs);
-    }, {});
+  case "LOAD_SHOW_DATA": {
+    if (!state.shows[payload.date]) {
+      const newShow = {
+        date: payload.date,
+        location: `@ ${stripHtml(payload.venue)}, ${payload.location}`,
+        tickets: [],
+        url: payload.url,
+      };
+      return {
+        ...state,
+        shows: {
+          ...state.shows,
+          [payload.date]: newShow,
+        },
+      };
+    }
+      // ...
+    const songsPlayed = payload.setlist
+      ? Object.entries(payload.setlist).reduce((processedSongs, [setName, rawSet]) => {
+        const isEncore = rawSet.length < 5; // meh
+        return rawSet.reduce((pS, song, index) => {
+          pS[slugify(song.title)] = {
+            title: song.title,
+            isEncore,
+            isOpener: index === 0 && !isEncore,
+          };
+          return pS;
+        }, processedSongs);
+      }, {})
+      : {};
     return {
       ...state,
       shows: {

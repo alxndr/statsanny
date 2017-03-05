@@ -10,17 +10,11 @@ function getName() {
   return window.prompt("name?").trim();
 }
 
-function getShowDate() {
-  const date = window.prompt("Date? YYYY-MM-DD").trim(); // TODO calendar prompt
-  // TODO check that it's in the future or it exists on .net
-  return date;
-}
-
 export class App extends Component {
   render() {
     return <div className="app">
       <h1>Statsanny</h1>
-      <button className="addShow" onClick={this.props.addShow}>➕ show</button>
+      <button className="addShow" onClick={this.props.promptForShowDate}>➕ show</button>
       <ShowList
         shows={this.props.shows}
         tickets={this.props.tickets}
@@ -47,11 +41,12 @@ const mapDispatchToProps = (dispatch) => {
     addPerson: (showDate) =>
       dispatch(Actions.addTicket(getName(), showDate))
         .then(() => dispatch(Actions.saveState())),
-    addShow: () =>
-      dispatch(Actions.addShow(getShowDate())) // TODO rename
-        .then(() => dispatch(Actions.saveState())),
     chooseSong: (playerName, showDate) => // TODO rename this prop...
       dispatch(Actions.pickSong(playerName, showDate))
+        .then(() => dispatch(Actions.saveState())),
+    promptForShowDate: () =>
+      dispatch(Actions.promptForShowDate()) // TODO rename
+        .then((date) => dispatch(Actions.loadShowData(date)))
         .then(() => dispatch(Actions.saveState())),
     removeShow: (showDate) => {
       // TODO this should be something like dispatch confirmRemoveShow(showdate)

@@ -1,8 +1,10 @@
 module.exports = {
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
+  "extends": ["eslint:recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -10,15 +12,13 @@ module.exports = {
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
-  "extends": ["eslint:recommended"],
+  "plugins": ["react"],
   "rules": {
     "comma-dangle": ["warn", "only-multiline"],
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "no-console": ["warn"],
+    "no-unused-vars": ["error", {"argsIgnorePattern": "^_"}],
     "react/jsx-uses-react": ["error"],
     "react/jsx-uses-vars": ["error"],
   },

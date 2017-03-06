@@ -1,130 +1,47 @@
-import React, { Component } from "react";
-import { slugify } from "./utils";
+import React from "react";
+import moment from "moment";
 
-import Points from "./Points";
-
-import { findAlias } from "./song-helper";
+import PlayerTicket from "./PlayerTicket";
 
 import "./Show.css";
 
-function extractJson(response) {
-  return response.json();
+function where({location, venue}) {
+  if (location && venue) {
+    return <p className="where">@ {venue}<br/>{location}</p>
+  }
+  if (location) {
+    return <p className="where">@ {location}</p>
+  }
+  if (venue) {
+    return <p className="where">@ {venue}</p>
+  }
+  return false;
 }
 
-function nameToPlayer(name) {
-  name = name.trim();
-  return {
-    name,
-    picks: [],
-    points: 0,
-    slug: slugify(name),
-  };
-}
-
-class Show extends Component {
-
-  constructor(props) {
-    super(props);
-    this.addPlayer = this._addPlayer.bind(this);
-    this.runTheNumbers = this._runTheNumbers.bind(this);
-  }
-
-  _addPlayer() {
-    const name = window.prompt("name?").trim();
-    if (!name.length) {
-      return;
-    }
-    this.props.players.push(nameToPlayer(name));
-    this.forceUpdate();
-  }
-
-  _runTheNumbers() {
-    if (!this.props.picks || !Object.keys(this.props.picks)) {
-      console.error("ruh roh");
-      return false;
-    }
-    this.props.players.map((player) => player.points = 0); // reset scores
-    return fetch(`http://phish.in/api/v1/shows/${this.props.date}`)
-      .then(extractJson)
-      .then(({data}) => {
-        if (!data) {
-          return false;
-        }
-        // console.log("got data", data);
-        // console.log("picks...", this.props.picks);
-        data.tracks.map((track) => {
-          const songSlug = slugify(track.title.toLowerCase());
-          const thePick = this.props.picks[songSlug];
-          if (thePick) {
-            const player = this.props.players.find((player) => player.name === thePick.who);
-            player.points += 1;
-            console.log(thePick.who, "picked", track.title, "now has", player.points, "points");
-          }
-        });
-        this.forceUpdate();
-        return data;
-      })
-    ;
-  }
-
-  addPick(player, songName) {
-    const songSlug = slugify(songName.toLowerCase());
-    this.props.picks[songSlug] = {
-      title: songName,
-      who: player.name
-    };
-    player.picks.push(songSlug);
-  }
-
-  chooseSong(player) {
-    let pick = window.prompt("What's your pick?").trim();
-    if (!pick.length) {
-      return;
-    }
-    const aliasedTo = findAlias(pick);
-    if (aliasedTo) {
-      pick = window.prompt("Did you mean...", aliasedTo);
-    }
-    // TODO check for already picked...
-    this.addPick(player, pick);
-    this.forceUpdate();
-  }
-
-  removePlayer(player) {
-    console.log("removing", player);
-    player.picks.map((pickSlug) => {
-      delete this.props.picks[pickSlug];
-    });
-    this.props.players.splice(this.props.players.indexOf(player), 1);
-    console.log("now we have props...", this.props);
-    this.forceUpdate();
-  }
-
-  render() {
-    // console.log("show rendering", this.props);
-    return <div className="show">
-      <p className="date">
-        <input type="text" value={this.props.date} readOnly />
-        <button onClick={this.runTheNumbers}>run the numbers</button>
-      </p>
-      <button className="addPerson" onClick={this.addPlayer}>add person</button>
-      <ul className="players">
-        {this.props.players.map((player) => {
-          return <li key={player.slug}>
-            <button className="close" onClick={this.removePlayer.bind(this, player)}>x</button>
-            <p className="player">{player.name}'s picks... <Points points={player.points} /></p>
-            <ul className="picks">
-              {player.picks.map((songSlug) => {
-                const pick = this.props.picks[songSlug];
-                return <li key={`${player.slug}-${slugify(pick.title)}`}>{pick.title}</li>;
-              })}
-              <li><button className="addPick" onClick={this.chooseSong.bind(this, player)}>+</button></li>
-            </ul>
-          </li>;
-        })}
-      </ul>
-    </div>;
-  }
+function Show(props) {
+  const dateFormatted = moment(props.date).format("MMM D, YYYY");
+  const dateContents = props.url
+    ? <a href={props.url} target="_blank" rel="noopener noreferrer">{dateFormatted}</a>
+    : dateFormatted;
+  return <div className="show">
+    <button onClick={props.removeShow} className="deleteShow">❌</button>
+    <button className="addPerson" onClick={() => props.addPerson(props.date)}>➕</button>
+    <p className="date">{dateContents}</p>
+    <button className="calculate" onClick={props.runTheNumbers}>💱</button>
+    {where(props)}
+    <ul className="tickets">
+      {props.tickets.map((ticket) =>
+        <li key={ticket.id}>
+          <PlayerTicket
+            {...ticket}
+            chooseSong={props.chooseSong}
+            deleteTicket={props.removeTicket.bind(null, ticket.id)}
+            removeSong={props.removeSong}
+          />
+        </li>
+      )}
+    </ul>
+  </div>;
 }
 
 export default Show;

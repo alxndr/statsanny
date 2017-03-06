@@ -1,36 +1,65 @@
+/* Show.css */
+
+.show {
+  min-width: 13em;
+  max-width: 20em;
+  margin: 1em 0 0 1em;
+  padding: 1em;
+  background: linear-gradient(to bottom, rgba(88, 88, 88, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  border-radius: 1.5em 1.5em 0 0;
+  position: relative; /* so .close can be positioned absolutely */
+}
+
+.date {
+  overflow: auto;
+  margin: 0;
+  font: 2em "Amatic SC";
+  text-align: center;
+}
+
+.date a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.deleteShow {
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  color: red;
+  visibility: hidden;
+}
+
+.show:hover .deleteShow {
+  visibility: visible;
+}
+
+.addPerson,
+.calculate {
+  position: absolute;
+  top: 0.5em;
+}
+
+.calculate {
+  right: 0.5em;
+  font-size: 2em;
+}
+
 .addPerson {
+  left: 0.5em;
+  font-size: 2em;
   cursor: copy;
 }
 
-.players,
+.where {
+  font: 1em/1.2em "Gloria Hallelujah";
+  margin: 0.5em;
+  text-align: center;
+}
+
+.tickets,
 .picks {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.players > li {
-  background: lightgray;
-  padding: 0.5em;
-  margin: 0.5em;
-}
-
-.players > li .close {
-  float: right;
-  color: red;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-li > p.player {
-  margin: 0 0 0.5em;
-  color: #555;
-}
-
-.picks > li {
-}
-
-.picks .addPick {
-  cursor: copy;
 }

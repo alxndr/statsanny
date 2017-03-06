@@ -1,67 +1,61 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
 
+import Actions from "./actions";
 import ShowList from "./ShowList";
 
 import "./App.css";
 
-const initialState = {
-  shows: [],
-};
-
-function loadState() {
-  try {
-    return global.localStorage
-      && global.localStorage.state
-      && JSON.parse(global.localStorage.state)
-      || initialState;
-  } catch (_error) {
-    return initialState;
-  }
+function getName() {
+  return window.prompt("name?").trim();
 }
 
-function showFor(date) {
-  return {
-    date,
-    players: [],
-    picks: {}
-  };
+export function App(props) {
+  return <div className="app">
+    <h1>Statsanny</h1>
+    <button className="addShow" onClick={props.promptForShowDate}>➕ show</button>
+    <ShowList
+      shows={props.shows}
+      tickets={props.tickets}
+      addPerson={props.addPerson}
+      chooseSong={props.promptForSong}
+      removeShow={props.removeShow}
+      removeSong={props.removeSong}
+      removeTicket={props.removeTicket}
+      runTheNumbers={props.runTheNumbers}
+    />
+  </div>;
 }
 
-function saveState(state) {
-  if (global.localStorage) {
-    global.localStorage.state = JSON.stringify(state);
-  }
-}
+const mapStateToProps = (state) => ({
+  shows: state.shows,
+  tickets: state.tickets,
+});
 
-class App extends Component {
+const mapDispatchToProps = (dispatch) => ({
+  addPerson: (showDate) =>
+    dispatch(Actions.addTickets({names: getName(), date: showDate}))
+      .then(() => dispatch(Actions.saveState())),
+  promptForSong: (playerName, showDate) =>
+    dispatch(Actions.promptForSong(playerName, showDate))
+      .then(() => dispatch(Actions.saveState())),
+  promptForShowDate: () =>
+    dispatch(Actions.promptForShowDate())
+      .then((date) => dispatch(Actions.loadShowData(date)))
+      .then(() => dispatch(Actions.saveState())),
+  removeShow: (showDate) =>
+    dispatch(Actions.confirmRemoveShow(showDate))
+      .then(() => dispatch(Actions.removeShow(showDate)))
+      .then(() => dispatch(Actions.saveState())),
+  removeSong: ({name, date, song}) =>
+    dispatch(Actions.removeSong({name, date, song}))
+      .then(() => dispatch(Actions.saveState())),
+  removeTicket: (ticketId) =>
+    dispatch(Actions.removeTicket(ticketId))
+      .then(() => dispatch(Actions.saveState())),
+  runTheNumbers: (show) =>
+    dispatch(Actions.runTheNumbers(show))
+      .then(() => dispatch(Actions.saveState())),
+});
 
-  constructor(props) {
-    super(props);
-    this.state = loadState();
-    this.addShow = this._addShow.bind(this);
-    this.saveState = this._saveState.bind(this);
-  }
-
-  componentDidUpdate() {
-    saveState(this.state);
-  }
-
-  _addShow() {
-    const date = window.prompt("Date? YYYY-MM-DD").trim(); // TODO calendar prompt
-    // TODO check that it's in the future or it exists on .net
-    this.setState({shows: [showFor(date), ...this.state.shows]});
-  }
-
-  _saveState() {
-    saveState(this.state);
-  }
-
-  render() {
-    return <div className="app">
-      <button className="addShow" onClick={this.addShow}>add a show</button>
-      <ShowList shows={this.state.shows} onUpdated={this.saveState} />
-    </div>;
-  }
-}
-
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

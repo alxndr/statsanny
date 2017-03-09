@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { slugify } from "./utils";
 
 import Points from "./Points";
@@ -6,28 +6,26 @@ import Song from "./Song";
 
 import "./PlayerTicket.css";
 
-class PlayerTicket extends Component {
-  render() {
-    const key = [this.props.date, this.props.name].join("-");
-    return <div className="player-ticket">
-      <p className="player">{this.props.name}'s picks</p>
-      <ul className="picks">
-        {this.props.songs.map((song) => {
-          const songInfo = {
-            name: this.props.name,
-            date: this.props.date,
-            song,
-          };
-          return <li key={`${key}-${slugify(song.title)}`}>
-            <Song {...song} removeSong={this.props.removeSong.bind(null, songInfo)} />
-          </li>;
-        })}
-      </ul>
-      <Points points={this.props.score} />
-      <button className="addPick" onClick={this.props.chooseSong.bind(this, this.props.name, this.props.date)}>+</button>
-      <button className="deleteTicket" onClick={this.props.deleteTicket}>❌</button>
-    </div>;
-  }
+function PlayerTicket(props) {
+  const key = [props.date, props.name].join("-");
+  return <div className="player-ticket">
+    <p className="player">{props.name}'s picks</p>
+    <ul className="picks">
+      {props.songs.map((song) => {
+        const songInfo = {
+          name: props.name,
+          date: props.date,
+          song,
+        };
+        return <li key={`${key}-${slugify(song.title)}`}>
+          <Song {...song} removeSong={props.removeSong.bind(null, songInfo)} />
+        </li>;
+      })}
+    </ul>
+    <Points points={props.score} />
+    <button className="addPick" onClick={props.chooseSong.bind(null, props.name, props.date)}>+</button>
+    <button className="deleteTicket" onClick={props.deleteTicket}>❌</button>
+  </div>;
 }
 
 export default PlayerTicket;

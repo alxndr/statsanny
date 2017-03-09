@@ -2,7 +2,6 @@
 
 .player-ticket {
   position: relative; /* so close button can be positioned */
-  min-width: 200px;
   margin: 0.5em;
   padding: 0.5em 0.5em 3em;
   background: #fafaf6;

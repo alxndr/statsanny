@@ -2,14 +2,21 @@
 
 .song {
   position: relative; /* so .deleteSong can be absolutely positioned */
+  margin: 0 0.4em;
   font-family: "VT323", monospace;
   font-size: 1.4em;
   text-transform: uppercase;
   letter-spacing: -0.03em;
 }
 
+.song .title {
+  margin-right: 1em;
+}
+
 .song .points {
-  float: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
   padding: 0 0.2em 0 0.5em;
 }
 

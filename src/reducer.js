@@ -235,10 +235,11 @@ function reducer(state = loadState(), action) {
     };
   }
 
+  case "@@INIT":
+    return state;
+
   default:
-    if (action.type !== "@@INIT") {
-      console.warn("reducer saw unhandled action", state, action);
-    }
+    console.warn("reducer saw unhandled action", state, action);
     return state;
   }
 }

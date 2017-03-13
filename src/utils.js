@@ -37,6 +37,32 @@ export function objectWithoutKeys(obj, keysToRemove) {
     .reduce(buildNewObject, {});
 }
 
+export function patch(url, data) {
+  return fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export function post(url, data) {
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export function reduceObject(obj, fn) {
+  return Object.entries(obj).reduce(fn, {});
+}
+
 const REGEX_NON_ALPHANUMERIC = /[^a-z0-9]/g;
 export function sanitizeString(string) {
   return string.toLowerCase().replace(REGEX_NON_ALPHANUMERIC, "");

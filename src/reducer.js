@@ -1,20 +1,30 @@
 import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, sanitizeString, trimString } from "./utils";
 import console from "./console";
 
-const initialState = {
-  shows: {},
-  tickets: {},
-};
+function createInitialState() {
+  return {
+    houseName: global.prompt("What's the name of the House?"),
+    isSyncInProgress: false,
+    shows: {},
+    tickets: {},
+  };
+}
 
 function loadState() {
-  try {
-    return global.localStorage
-      && global.localStorage.state
-      && JSON.parse(global.localStorage.state) // eslint-disable-line no-mixed-operators
-      || initialState; // eslint-disable-line no-mixed-operators
-  } catch (_error) {
-    return initialState;
+  if (global.localStorage) {
+    const {state} = global.localStorage;
+    let localState;
+    try {
+      localState = JSON.parse(state);
+      // TODO want to load data from backend if there's nothing in local storage
+    } catch (error) {
+      console.error(error, error.stack);
+    }
+    if (localState) {
+      return localState;
+    }
   }
+  return createInitialState();
 }
 
 function newTicket(playerName, date) {

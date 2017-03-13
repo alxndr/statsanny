@@ -3,7 +3,6 @@ import { stringify as queryString } from "query-string";
 
 import { songAliasFor } from "./phishStuff";
 import { extractJson, objectWithoutKey, patch, post, reduceObject, sanitizeString, trimString } from "./utils";
-import console from "./console";
 
 const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI

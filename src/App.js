@@ -13,7 +13,6 @@ function getName() {
 
 export function App(props) {
   return <div className="app">
-    <h1>Statsanny</h1>
     <button className="addShow" onClick={props.promptForShowDate}>➕ show</button>
     <button className="sync" disabled={props.isSyncInProgress} onClick={props.syncData}>🔄</button>
     <ShowList

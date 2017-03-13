@@ -1,16 +1,9 @@
 /* App.css */
 
-@import url("https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|Rock+Salt|VT323");
+@import url("https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|VT323"); /* TODO use SCSS then make something to generate this url */
 
 body {
   color: #333;
-}
-
-h1 {
-  margin: 0;
-  font: 2em "Rock Salt", fantasy;
-  text-align: center;
-  text-transform: lowercase;
 }
 
 button {

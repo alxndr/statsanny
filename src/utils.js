@@ -21,6 +21,13 @@ function buildNewObject(newObj, [key, val]) {
   return newObj;
 }
 
+export function catchPromise(message) {
+  return function(error) {
+    console.error(message, error, error.stack);
+    global.alert(message);
+  };
+}
+
 export function extractJson(response) {
   return response.json();
 }

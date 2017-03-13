@@ -3,6 +3,7 @@ import { stringify as queryString } from "query-string";
 
 import { songAliasFor } from "./phishStuff";
 import {
+  catchPromise,
   extractJson,
   objectWithoutKey,
   patch,
@@ -143,10 +144,8 @@ const syncData = () => (dispatch, getState) => {
       };
       return post(`${backend}/houses`, {house: theHouse});
     })
-    .catch((error) => {
-      console.error(error, error.stack);
-      global.alert("Ruh roh, something broke.");
-    });
+    .catch(catchPromise("Ruh roh, something broke."))
+  ;
 };
 
 export default {

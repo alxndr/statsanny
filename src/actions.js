@@ -118,7 +118,7 @@ function dataToSync({shows, tickets}) {
     }),
     tickets,
   };
-};
+}
 
 const syncData = () => (dispatch, getState) => {
   const {houseName, shows, tickets} = getState();

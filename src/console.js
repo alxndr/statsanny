@@ -1,8 +1,9 @@
 function noop() {}
 
-const console = {
-  log: global.console && global.console.log ? global.console.log : noop,
-  warn: global.console && global.console.warn ? global.console.warn : noop,
-};
+const c = global.console ? global.console : {};
 
-export default console;
+export default {
+  error: c.error ? c.error : noop,
+  log:   c.log   ? c.log   : noop,
+  warn:  c.warn  ? c.warn  : noop,
+};

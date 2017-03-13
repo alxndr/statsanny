@@ -1,7 +1,9 @@
 import { createAction } from "redux-actions";
+import { stringify as queryString } from "query-string";
 
 import { songAliasFor } from "./phishStuff";
-import { extractJson, sanitizeString, trimString } from "./utils";
+import { extractJson, objectWithoutKey, patch, post, reduceObject, sanitizeString, trimString } from "./utils";
+import console from "./console";
 
 const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
@@ -99,9 +101,45 @@ function makeUrl(date) {
 
 const scoreShow = createAction("SCORE_SHOW");
 
-const runTheNumbers = (show) => (dispatch, _getState) => {
+const runTheNumbers = (show) => (dispatch) => {
   return dispatch(loadShowData(show.date))
     .then(() => dispatch(scoreShow(show)));
+};
+
+const setSync = createAction("SET_SYNC", (bool) => Promise.resolve(bool));
+
+const backend = "//curtain-with.herokuapp.com";
+
+function dataToSync({shows, tickets}) {
+  return {
+    shows: reduceObject(shows, (cleanedShows, [showDate, showData]) => {
+      cleanedShows[showDate] = objectWithoutKey(showData, "songsPlayed");
+      return cleanedShows;
+    }),
+    tickets,
+  };
+};
+
+const syncData = () => (dispatch, getState) => {
+  const {houseName, shows, tickets} = getState();
+  return fetch(`${backend}/house/find?${queryString({name: houseName})}`)
+    .then(extractJson)
+    .then(({data}) => {
+      const book = dataToSync({shows, tickets});
+      if (data) {
+        const houseId = data.id;
+        return patch(`${backend}/houses/${houseId}`, {house: {book}});
+      }
+      const theHouse = {
+        name: houseName,
+        book,
+      };
+      return post(`${backend}/houses`, {house: theHouse});
+    })
+    .catch((error) => {
+      console.error(error, error.stack);
+      global.alert("Ruh roh, something broke.");
+    });
 };
 
 export default {
@@ -116,4 +154,6 @@ export default {
   removeTicket,
   runTheNumbers,
   saveState,
+  setSync,
+  syncData,
 };

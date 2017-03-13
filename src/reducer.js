@@ -245,6 +245,12 @@ function reducer(state = loadState(), action) {
     };
   }
 
+  case "SET_SYNC":
+    return {
+      ...state,
+      isSyncInProgress: action.payload
+    };
+
   case "@@INIT":
     return state;
 

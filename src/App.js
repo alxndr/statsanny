@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import Actions from "./actions";
 import ShowList from "./ShowList";
+import console from "./console";
 
 import "./App.css";
 
@@ -14,6 +15,7 @@ export function App(props) {
   return <div className="app">
     <h1>Statsanny</h1>
     <button className="addShow" onClick={props.promptForShowDate}>➕ show</button>
+    <button className="sync" disabled={props.isSyncInProgress} onClick={props.syncData}>🔄</button>
     <ShowList
       shows={props.shows}
       tickets={props.tickets}
@@ -28,6 +30,7 @@ export function App(props) {
 }
 
 const mapStateToProps = (state) => ({
+  isSyncInProgress: state.isSyncInProgress,
   shows: state.shows,
   tickets: state.tickets,
 });
@@ -56,6 +59,14 @@ const mapDispatchToProps = (dispatch) => ({
   runTheNumbers: (show) =>
     dispatch(Actions.runTheNumbers(show))
       .then(() => dispatch(Actions.saveState())),
+  syncData: () =>
+    dispatch(Actions.setSync(true))
+      .then(() => dispatch(Actions.syncData()))
+      .then(() => dispatch(Actions.setSync(false)))
+      .catch((error) => {
+        console.error(error, error.stack);
+        return dispatch(Actions.setSync(false));
+      }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

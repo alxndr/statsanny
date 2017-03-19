@@ -4,7 +4,7 @@
   position: relative; /* so .deleteSong can be absolutely positioned */
   margin: 0 0.4em;
   font-family: "VT323", monospace;
-  font-size: 1.4em;
+  font-size: 1.6em;
   text-transform: uppercase;
   letter-spacing: -0.03em;
 }

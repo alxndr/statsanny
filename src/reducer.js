@@ -247,10 +247,11 @@ function reducer(state = initialState, action) {
     };
 
   case "@@INIT":
+  case "@@redux/INIT":
     return state;
 
   default:
-    console.warn("reducer saw unhandled action", state, action);
+    console.warn("reducer saw unhandled action", action, state);
     return state;
   }
 }

@@ -80,7 +80,12 @@ function getHouse(houseName) {
 
 const loadBookFromBackend = (houseName) => (dispatch) => {
   return dispatch(getHouse(houseName))
-    .then(({data}) => dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows})))
+    .then(({data}) => {
+      if (data && data.book) {
+        return dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows}));
+      }
+      return null;
+    })
   ;
 };
 

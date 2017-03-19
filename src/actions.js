@@ -79,14 +79,14 @@ function getHouse(houseName) {
 }
 
 const loadBookFromBackend = (houseName) => (dispatch) => {
-  return dispatch(getHouse(houseName))
+  return dispatch(getHouse(houseName)
     .then(({data}) => {
       if (data && data.book) {
         return dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows}));
       }
       return null;
     })
-  ;
+  );
 };
 
 export const onMount = () => (dispatch, _getState) => {
@@ -183,7 +183,7 @@ function dataToSync({shows, tickets}) {
 
 const syncData = () => (dispatch, getState) => {
   const {houseName, shows, tickets} = getState();
-  return getHouse(houseName)
+  return dispatch(getHouse(houseName))
     .then(({data}) => {
       const book = dataToSync({shows, tickets});
       if (data) {

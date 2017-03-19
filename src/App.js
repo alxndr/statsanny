@@ -7,21 +7,27 @@ import console from "./console";
 
 import "./App.css";
 
-export function App(props) {
-  return <div className="app">
-    <button className="addShow" onClick={props.promptForShowDate}>➕ show</button>
-    <button className="sync" disabled={props.isSyncInProgress} onClick={props.syncData}>🔄</button>
-    <ShowList
-      shows={props.shows}
-      tickets={props.tickets}
-      addPerson={props.addPerson}
-      chooseSong={props.promptForSong}
-      removeShow={props.removeShow}
-      removeSong={props.removeSong}
-      removeTicket={props.removeTicket}
-      runTheNumbers={props.runTheNumbers}
-    />
-  </div>;
+export class App extends React.PureComponent {
+  componentDidMount() {
+    this.props.onMount();
+  }
+
+  render() {
+    return <div className="app">
+      <button className="addShow" onClick={this.props.promptForShowDate}>➕ show</button>
+      <button className="sync" disabled={this.props.isSyncInProgress} onClick={this.props.syncData}>🔄</button>
+      <ShowList
+        shows={this.props.shows}
+        tickets={this.props.tickets}
+        addPerson={this.props.addPerson}
+        chooseSong={this.props.promptForSong}
+        removeShow={this.props.removeShow}
+        removeSong={this.props.removeSong}
+        removeTicket={this.props.removeTicket}
+        runTheNumbers={this.props.runTheNumbers}
+      />
+    </div>;
+  }
 }
 
 const mapStateToProps = (state) => ({
@@ -35,6 +41,8 @@ const mapDispatchToProps = (dispatch) => ({
   addPerson: (showDate) =>
     dispatch(Actions.addTickets({names: window.prompt("name?").trim(), date: showDate}))
       .then(() => dispatch(Actions.saveState())),
+
+  onMount: () => dispatch(Actions.onMount()),
 
   promptForSong: (playerName, showDate) =>
     dispatch(Actions.promptForSong(playerName, showDate))

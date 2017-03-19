@@ -12,6 +12,7 @@ import {
   sanitizeString,
   trimString,
 } from "./utils";
+import console from "./console";
 
 const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
@@ -51,6 +52,21 @@ const confirmRemoveShow = createAction("CONFIRM_REMOVE_SHOW", (showDate) => {
   return Promise.reject(`not removing all entries for ${showDate}`);
 });
 
+const setHouseName = createAction("SET_HOUSE_NAME");
+
+function loadState() {
+  if (global.localStorage && global.localStorage.state) {
+    try {
+      return JSON.parse(global.localStorage.state);
+    } catch (error) {
+      console.error(error, error.stack);
+    }
+  }
+  return false;
+}
+
+const loadBook = createAction("LOAD_BOOK");
+
 const backend = "//curtain-with.herokuapp.com";
 
 function getHouse(houseName) {
@@ -61,6 +77,31 @@ function getHouse(houseName) {
     ;
   };
 }
+
+const loadBookFromBackend = (houseName) => (dispatch) => {
+  const promises = [
+    dispatch(getHouse(houseName))
+      .then(({data}) => dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows})))
+  ];
+  return Promise.all(promises);
+};
+
+export const onMount = () => (dispatch, _getState) => {
+  const storedState = loadState();
+  // TODO this should probably just bail out if we don't have localStorage
+  const name = storedState && storedState.houseName
+    ? storedState.houseName
+    : global.prompt("What's the name of the House?");
+  const promises = [
+    dispatch(setHouseName(name)),
+  ];
+  if (storedState && storedState.tickets) {
+    promises.push(dispatch(loadBook({shows: storedState.shows, tickets: storedState.tickets})));
+  } else {
+    promises.push(dispatch(loadBookFromBackend(name)));
+  }
+  return Promise.all(promises);
+};
 
 const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   const {shows, tickets} = getState();
@@ -160,6 +201,7 @@ export default {
   addSongs,
   confirmRemoveShow,
   loadShowData,
+  onMount, // TODO rename this
   promptForSong,
   promptForShowDate,
   removeShow,

@@ -1,26 +1,12 @@
 import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, sanitizeString, trimString } from "./utils";
 import console from "./console";
 
-function createInitialState() {
-  return {
-    houseName: global.prompt("What's the name of the House?"),
-    isSyncInProgress: false,
-    shows: {},
-    tickets: {},
-  };
-}
-
-function loadState() {
-  if (global.localStorage && global.localStorage.state) {
-    try {
-      return JSON.parse(global.localStorage.state);
-      // TODO ...want to load data from backend if there's nothing in local storage
-    } catch (error) {
-      console.error(error, error.stack);
-    }
-  }
-  return createInitialState();
-}
+const initialState = {
+  houseName: null, // TODO this should be invalid...
+  isSyncInProgress: false,
+  shows: {},
+  tickets: {},
+};
 
 function newTicket(playerName, date) {
   return {
@@ -93,7 +79,7 @@ function cleanLocation(rawLocation = "") {
     .replace(", USA", "");
 }
 
-function reducer(state = loadState(), action) {
+function reducer(state = initialState, action) {
   const payload = action.payload;
   switch (action.type) {
 
@@ -137,6 +123,14 @@ function reducer(state = loadState(), action) {
           ]
         }
       }
+    };
+  }
+
+  case "LOAD_BOOK": {
+    return {
+      ...state,
+      shows: payload.shows,
+      tickets: payload.tickets,
     };
   }
 
@@ -238,6 +232,13 @@ function reducer(state = loadState(), action) {
       }
     };
   }
+
+  case "SET_HOUSE_NAME":
+    return {
+      ...state,
+      houseName: payload,
+    };
+
 
   case "SET_SYNC":
     return {

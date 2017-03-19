@@ -7,10 +7,6 @@ import console from "./console";
 
 import "./App.css";
 
-function getName() {
-  return window.prompt("name?").trim();
-}
-
 export function App(props) {
   return <div className="app">
     <button className="addShow" onClick={props.promptForShowDate}>➕ show</button>
@@ -36,7 +32,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addPerson: (showDate) =>
-    dispatch(Actions.addTickets({names: getName(), date: showDate}))
+    dispatch(Actions.addTickets({names: window.prompt("name?").trim(), date: showDate}))
       .then(() => dispatch(Actions.saveState())),
   promptForSong: (playerName, showDate) =>
     dispatch(Actions.promptForSong(playerName, showDate))

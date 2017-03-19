@@ -31,29 +31,37 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+
   addPerson: (showDate) =>
     dispatch(Actions.addTickets({names: window.prompt("name?").trim(), date: showDate}))
       .then(() => dispatch(Actions.saveState())),
+
   promptForSong: (playerName, showDate) =>
     dispatch(Actions.promptForSong(playerName, showDate))
       .then(() => dispatch(Actions.saveState())),
+
   promptForShowDate: () =>
     dispatch(Actions.promptForShowDate())
       .then((date) => dispatch(Actions.loadShowData(date)))
       .then(() => dispatch(Actions.saveState())),
+
   removeShow: (showDate) =>
     dispatch(Actions.confirmRemoveShow(showDate))
       .then(() => dispatch(Actions.removeShow(showDate)))
       .then(() => dispatch(Actions.saveState())),
+
   removeSong: ({name, date, song}) =>
     dispatch(Actions.removeSong({name, date, song}))
       .then(() => dispatch(Actions.saveState())),
+
   removeTicket: (ticketId) =>
     dispatch(Actions.removeTicket(ticketId))
       .then(() => dispatch(Actions.saveState())),
+
   runTheNumbers: (show) =>
     dispatch(Actions.runTheNumbers(show))
       .then(() => dispatch(Actions.saveState())),
+
   syncData: () =>
     dispatch(Actions.setSync(true))
       .then(() => dispatch(Actions.syncData()))
@@ -62,6 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
         console.error(error, error.stack);
         return dispatch(Actions.setSync(false));
       }),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

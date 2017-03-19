@@ -2,20 +2,11 @@ import { arrayWithoutElement, objectWithoutKey, objectWithoutKeys, sanitizeStrin
 import console from "./console";
 
 const initialState = {
+  houseName: null, // TODO this should be invalid...
+  isSyncInProgress: false,
   shows: {},
   tickets: {},
 };
-
-function loadState() {
-  try {
-    return global.localStorage
-      && global.localStorage.state
-      && JSON.parse(global.localStorage.state) // eslint-disable-line no-mixed-operators
-      || initialState; // eslint-disable-line no-mixed-operators
-  } catch (_error) {
-    return initialState;
-  }
-}
 
 function newTicket(playerName, date) {
   return {
@@ -88,7 +79,7 @@ function cleanLocation(rawLocation = "") {
     .replace(", USA", "");
 }
 
-function reducer(state = loadState(), action) {
+function reducer(state = initialState, action) {
   const payload = action.payload;
   switch (action.type) {
 
@@ -135,6 +126,14 @@ function reducer(state = loadState(), action) {
     };
   }
 
+  case "LOAD_BOOK": {
+    return {
+      ...state,
+      shows: payload.shows,
+      tickets: payload.tickets,
+    };
+  }
+
   case "LOAD_SHOW_DATA": {
     if (!state.shows[payload.date]) {
       const newShow = {
@@ -152,7 +151,6 @@ function reducer(state = loadState(), action) {
         },
       };
     }
-      // ...
     const songsPlayed = payload.setlist
       ? Object.entries(payload.setlist).reduce((processedSongs, [_setName, rawSet]) => {
         const isEncore = rawSet.length < 5; // meh. the setName isn't very exact... but neither is this.
@@ -235,10 +233,25 @@ function reducer(state = loadState(), action) {
     };
   }
 
+  case "SET_HOUSE_NAME":
+    return {
+      ...state,
+      houseName: payload,
+    };
+
+
+  case "SET_SYNC":
+    return {
+      ...state,
+      isSyncInProgress: action.payload
+    };
+
+  case "@@INIT":
+  case "@@redux/INIT":
+    return state;
+
   default:
-    if (action.type !== "@@INIT") {
-      console.warn("reducer saw unhandled action", state, action);
-    }
+    console.warn("reducer saw unhandled action", action, state);
     return state;
   }
 }

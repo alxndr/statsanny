@@ -6,7 +6,7 @@
   "homepage": "http://alxndr.github.io/statsanny/",
   "repository": "https://github.com/alxndr/statsanny",
   "devDependencies": {
-    "eslint": "^3.16.1",
+    "eslint": "3.18.0",
     "eslint-plugin-react": "^6.10.0",
     "gh-pages": "^0.12.0",
     "react-scripts": "0.8.5",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "moment": "^2.17.1",
+    "query-string": "^4.3.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",

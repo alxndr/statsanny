@@ -1,16 +1,15 @@
 /* App.css */
 
-@import url("https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|Rock+Salt|VT323");
+@import url("https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|VT323"); /* TODO use SCSS then make something to generate this url */
 
 body {
   color: #333;
 }
 
-h1 {
-  margin: 0;
-  font: 2em "Rock Salt", fantasy;
-  text-align: center;
-  text-transform: lowercase;
+button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
 .addShow {
@@ -27,8 +26,15 @@ h1 {
   font-size: 1.5em;
 }
 
-button {
-  background: transparent;
-  border: 0;
-  cursor: pointer;
+.sync {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  cursor: alias;
+}
+
+.sync[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

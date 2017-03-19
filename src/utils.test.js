@@ -23,6 +23,16 @@ describe("objectWithoutKey", () => {
   });
 });
 
+describe("reduceObject", () => {
+  it.skip("is a nice wrapper for Object.entries(obj).reduce(fn, {})", () => {
+    const reduced = utils.reduceObject({foo: "bar", baz: "qux"}, (r, [k, v]) => {
+      r[v] = k;
+      return r;
+    });
+    expect(reduced).toEqual({bar: "foo", qux: "bazzz"});
+  });
+});
+
 describe("sanitizeString", () => {
   const sanitizeString = utils.sanitizeString;
 

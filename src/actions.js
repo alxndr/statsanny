@@ -1,7 +1,18 @@
 import { createAction } from "redux-actions";
+import { stringify as queryString } from "query-string";
 
 import { songAliasFor } from "./phishStuff";
-import { extractJson, sanitizeString, trimString } from "./utils";
+import {
+  catchPromise,
+  extractJson,
+  objectWithoutKey,
+  patch,
+  post,
+  reduceObject,
+  sanitizeString,
+  trimString,
+} from "./utils";
+import console from "./console";
 
 const promptForShowDate = () => () => {
   const date = (window.prompt("Date? YYYY-MM-DD", "YYYY-MM-DD") || "").trim() || false; // TODO replace with some GUI
@@ -40,6 +51,55 @@ const confirmRemoveShow = createAction("CONFIRM_REMOVE_SHOW", (showDate) => {
   }
   return Promise.reject(`not removing all entries for ${showDate}`);
 });
+
+const setHouseName = createAction("SET_HOUSE_NAME");
+
+function loadState() {
+  if (global.localStorage && global.localStorage.state) {
+    try {
+      return JSON.parse(global.localStorage.state);
+    } catch (error) {
+      console.error(error, error.stack);
+    }
+  }
+  return false;
+}
+
+const loadBook = createAction("LOAD_BOOK");
+
+const backend = "//curtain-with.herokuapp.com";
+
+function getHouse(houseName) {
+  return function() {
+    return fetch(`${backend}/house/find?${queryString({name: houseName})}`)
+      .then(extractJson)
+      .catch(catchPromise(`Error fetching ${houseName} from ${backend}`))
+    ;
+  };
+}
+
+const loadBookFromBackend = (houseName) => (dispatch) => {
+  return dispatch(getHouse(houseName))
+    .then(({data}) => dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows})))
+  ;
+};
+
+export const onMount = () => (dispatch, _getState) => {
+  const storedState = loadState();
+  // TODO this should probably just bail out if we don't have localStorage
+  const name = storedState && storedState.houseName
+    ? storedState.houseName
+    : global.prompt("What's the name of the House?");
+  const promises = [
+    dispatch(setHouseName(name)),
+  ];
+  if (storedState && storedState.tickets) {
+    promises.push(dispatch(loadBook({shows: storedState.shows, tickets: storedState.tickets})));
+  } else {
+    promises.push(dispatch(loadBookFromBackend(name)));
+  }
+  return Promise.all(promises);
+};
 
 const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   const {shows, tickets} = getState();
@@ -99,9 +159,39 @@ function makeUrl(date) {
 
 const scoreShow = createAction("SCORE_SHOW");
 
-const runTheNumbers = (show) => (dispatch, _getState) => {
+const runTheNumbers = (show) => (dispatch) => {
   return dispatch(loadShowData(show.date))
     .then(() => dispatch(scoreShow(show)));
+};
+
+const setSync = createAction("SET_SYNC", (bool) => Promise.resolve(bool));
+
+function dataToSync({shows, tickets}) {
+  return {
+    shows: reduceObject(shows, (cleanedShows, [showDate, showData]) => {
+      cleanedShows[showDate] = objectWithoutKey(showData, "songsPlayed");
+      return cleanedShows;
+    }),
+    tickets,
+  };
+}
+
+const syncData = () => (dispatch, getState) => {
+  const {houseName, shows, tickets} = getState();
+  return getHouse(houseName)
+    .then(({data}) => {
+      const book = dataToSync({shows, tickets});
+      if (data) {
+        const houseId = data.id;
+        return patch(`${backend}/houses/${houseId}`, {house: {book}});
+      }
+      const theHouse = {
+        name: houseName,
+        book,
+      };
+      return post(`${backend}/houses`, {house: theHouse});
+    })
+  ;
 };
 
 export default {
@@ -109,6 +199,7 @@ export default {
   addSongs,
   confirmRemoveShow,
   loadShowData,
+  onMount, // TODO rename this
   promptForSong,
   promptForShowDate,
   removeShow,
@@ -116,4 +207,6 @@ export default {
   removeTicket,
   runTheNumbers,
   saveState,
+  setSync,
+  syncData,
 };

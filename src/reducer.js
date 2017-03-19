@@ -54,12 +54,14 @@ function scoreTicket(ticket, show) {
     bonusPoints += 1;
   }
   const encoreSongs = Object.values(show.songsPlayed).filter((song) => song.isEncore, []);
-  const firstEncoreSongNotPicked = encoreSongs.find((encoreSong) => {
-    const encoreSongTitleSanitized = sanitizeString(encoreSong.title);
-    return !ticket.songs.map(sanitizeTitle).includes(encoreSongTitleSanitized);
-  });
-  if (!firstEncoreSongNotPicked) {
-    bonusPoints += 1;
+  if (encoreSongs.length > 1) {
+    const firstEncoreSongNotPicked = encoreSongs.find((encoreSong) => {
+      const encoreSongTitleSanitized = sanitizeString(encoreSong.title);
+      return !ticket.songs.map(sanitizeTitle).includes(encoreSongTitleSanitized);
+    });
+    if (!firstEncoreSongNotPicked) {
+      bonusPoints += 1;
+    }
   }
   return {
     ...ticket,

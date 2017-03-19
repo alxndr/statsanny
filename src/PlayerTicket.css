@@ -10,7 +10,7 @@
   font-family: "VT323", monospace;
 }
 
-p.player {
+.player {
   margin: 0 0 0.5em;
   color: #333;
   font-size: 2em;

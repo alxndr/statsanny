@@ -11,17 +11,12 @@ function createInitialState() {
 }
 
 function loadState() {
-  if (global.localStorage) {
-    const {state} = global.localStorage;
-    let localState;
+  if (global.localStorage && global.localStorage.state) {
     try {
-      localState = JSON.parse(state);
-      // TODO want to load data from backend if there's nothing in local storage
+      return JSON.parse(global.localStorage.state);
+      // TODO ...want to load data from backend if there's nothing in local storage
     } catch (error) {
       console.error(error, error.stack);
-    }
-    if (localState) {
-      return localState;
     }
   }
   return createInitialState();

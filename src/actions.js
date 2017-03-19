@@ -51,6 +51,17 @@ const confirmRemoveShow = createAction("CONFIRM_REMOVE_SHOW", (showDate) => {
   return Promise.reject(`not removing all entries for ${showDate}`);
 });
 
+const backend = "//curtain-with.herokuapp.com";
+
+function getHouse(houseName) {
+  return function(dispatch) {
+    return fetch(`${backend}/house/find?${queryString({name: houseName})}`)
+      .then(extractJson)
+      .catch(catchPromise(`Error fetching ${houseName} from ${backend}`))
+    ;
+  };
+}
+
 const promptForSong = (playerName, showDate) => (dispatch, getState) => {
   const {shows, tickets} = getState();
   const ticketsForShow = shows[showDate].tickets.map((ticketId) => tickets[ticketId]);
@@ -116,8 +127,6 @@ const runTheNumbers = (show) => (dispatch) => {
 
 const setSync = createAction("SET_SYNC", (bool) => Promise.resolve(bool));
 
-const backend = "//curtain-with.herokuapp.com";
-
 function dataToSync({shows, tickets}) {
   return {
     shows: reduceObject(shows, (cleanedShows, [showDate, showData]) => {
@@ -130,8 +139,7 @@ function dataToSync({shows, tickets}) {
 
 const syncData = () => (dispatch, getState) => {
   const {houseName, shows, tickets} = getState();
-  return fetch(`${backend}/house/find?${queryString({name: houseName})}`)
-    .then(extractJson)
+  return getHouse(houseName)
     .then(({data}) => {
       const book = dataToSync({shows, tickets});
       if (data) {
@@ -144,7 +152,6 @@ const syncData = () => (dispatch, getState) => {
       };
       return post(`${backend}/houses`, {house: theHouse});
     })
-    .catch(catchPromise("Ruh roh, something broke."))
   ;
 };
 

@@ -70,7 +70,7 @@ const loadBook = createAction("LOAD_BOOK");
 const backend = "//curtain-with.herokuapp.com";
 
 function getHouse(houseName) {
-  return function(dispatch) {
+  return function() {
     return fetch(`${backend}/house/find?${queryString({name: houseName})}`)
       .then(extractJson)
       .catch(catchPromise(`Error fetching ${houseName} from ${backend}`))

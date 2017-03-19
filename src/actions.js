@@ -79,11 +79,9 @@ function getHouse(houseName) {
 }
 
 const loadBookFromBackend = (houseName) => (dispatch) => {
-  const promises = [
-    dispatch(getHouse(houseName))
-      .then(({data}) => dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows})))
-  ];
-  return Promise.all(promises);
+  return dispatch(getHouse(houseName))
+    .then(({data}) => dispatch(loadBook({tickets: data.book.tickets, shows: data.book.shows})))
+  ;
 };
 
 export const onMount = () => (dispatch, _getState) => {
